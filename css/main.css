@@ -416,7 +416,9 @@ html[data-theme="dark"] .post-figure img {
 
 .home-orbit {
   position: relative;
-  min-height: 24rem;
+  width: min(100%, 24rem);
+  aspect-ratio: 1;
+  margin: 0 auto;
   isolation: isolate;
 }
 
@@ -909,7 +911,7 @@ html[data-theme="dark"] .post h1 {
   }
 
   .home-orbit {
-    min-height: 20rem;
+    width: min(100%, 20rem);
   }
 
   .home-orbit__core {
@@ -957,7 +959,7 @@ html[data-theme="dark"] .post h1 {
   }
 
   .home-orbit {
-    min-height: 22rem;
+    width: min(100%, 19rem);
   }
 
   .home-orbit__node--ai {

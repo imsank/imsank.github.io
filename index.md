@@ -61,11 +61,18 @@ title: Home
   </div>
 </section>
 
+{% assign forensic_post_url = "/investment/" | relative_url %}
+{% for post in site.posts %}
+  {% if post.title == "Forensic Investing: How to Spot Financial Engineering Before It Destroys Your Capital" %}
+    {% assign forensic_post_url = post.url | relative_url %}
+  {% endif %}
+{% endfor %}
+
 <section class="home-current">
   <div>
     <p class="eyebrow">Latest thread</p>
     <h2>Forensic investing</h2>
     <p>Notes on spotting financial engineering before a growth story turns into a capital trap.</p>
   </div>
-  <a class="home-current__link" href="{{ '/investment/2026/07/04/forensic-investing-financial-engineering' | relative_url }}">Read the note</a>
+  <a class="home-current__link" href="{{ forensic_post_url }}">Read the note</a>
 </section>
