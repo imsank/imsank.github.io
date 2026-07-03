@@ -268,6 +268,38 @@ pre code {
   background: transparent;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.post-figure {
+  margin: 1.9rem 0;
+}
+
+.post-figure img {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow:
+    -1px 1px 1px rgba(61, 64, 91, 0.05),
+    -10px 12px 18px rgba(61, 64, 91, 0.14);
+}
+
+html[data-theme="dark"] .post-figure img {
+  box-shadow:
+    -1px 1px 1px rgba(0, 0, 0, 0.26),
+    -10px 12px 20px rgba(0, 0, 0, 0.38);
+}
+
+.post-figure figcaption {
+  margin-top: 0.65rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
 .home-hero {
   padding: 0.5rem 0 0;
 }
