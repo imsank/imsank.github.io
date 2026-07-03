@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Forensic Investing: How to Spot Financial Engineering Before It Destroys Your Capital"
-date: 2026-07-04
+date: 2026-07-04 00:10:00 +0530
 categories: investment
 tags:
   - investment
