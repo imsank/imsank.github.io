@@ -1,0 +1,66 @@
+---
+layout: default
+title: Investment
+---
+
+<h1>Investment</h1>
+<p class="lead">Notes and blogs on long-term investing.</p>
+
+<div class="blog-search" role="search">
+  <label class="blog-search__label" for="investment-search-input">Search investment posts</label>
+  <input id="investment-search-input" class="blog-search__input" type="search" placeholder="keyword, topic, title..." autocomplete="off">
+  <p id="investment-search-empty" class="blog-search__empty" hidden>No matching posts.</p>
+</div>
+
+{% assign investment_post_count = 0 %}
+{% for post in site.posts %}
+  {% if post.categories contains "investment" or post.tags contains "investment" %}
+    {% assign investment_post_count = investment_post_count | plus: 1 %}
+  {% endif %}
+{% endfor %}
+
+{% if investment_post_count > 0 %}
+  <ul class="post-list" id="investment-post-list">
+    {% for post in site.posts %}
+      {% if post.categories contains "investment" or post.tags contains "investment" %}
+      <li class="post-card">
+        <div class="post-meta">{{ post.date | date: "%B %-d, %Y" }}</div>
+        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        {% if post.excerpt %}
+          <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
+        {% endif %}
+      </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% else %}
+  <div class="empty-state">
+    <h2>No investment posts yet</h2>
+    <p>Add Markdown posts in <code>_posts</code> with <code>categories: investment</code> or <code>tags: investment</code>, and they will appear here automatically.</p>
+  </div>
+{% endif %}
+
+<script>
+  (function () {
+    var input = document.getElementById("investment-search-input");
+    var list = document.getElementById("investment-post-list");
+    var empty = document.getElementById("investment-search-empty");
+    if (!input || !list) return;
+
+    var posts = Array.prototype.slice.call(list.querySelectorAll(".post-card"));
+
+    function filterPosts(query) {
+      var visibleCount = 0;
+      posts.forEach(function (post) {
+        var isMatch = !query || post.textContent.toLowerCase().indexOf(query) !== -1;
+        post.hidden = !isMatch;
+        if (isMatch) visibleCount += 1;
+      });
+      if (empty) empty.hidden = visibleCount !== 0;
+    }
+
+    input.addEventListener("input", function () {
+      filterPosts(input.value.trim().toLowerCase());
+    });
+  })();
+</script>

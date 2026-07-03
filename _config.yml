@@ -1,0 +1,17 @@
+name: Murari Shankar
+title: Murari Shankar
+url: https://imsank.github.io
+baseurl: ""
+description: Building with AI. Investing for the long term. Cooking for fun. Enjoy Football, Read Books.
+author: Murari Shankar
+permalink: /investment/:year/:month/:day/:title
+theme: minima
+
+markdown: kramdown
+
+plugins:
+  - jekyll-feed
+
+header_pages:
+  - index.md
+  - investment/index.html
