@@ -12,6 +12,12 @@ markdown: kramdown
 plugins:
   - jekyll-feed
 
+collections:
+  interests:
+    output: true
+    permalink: /interested/:name/
+
 header_pages:
   - index.md
+  - interested/index.html
   - investment/index.html

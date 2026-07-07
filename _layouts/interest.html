@@ -1,0 +1,16 @@
+---
+layout: default
+---
+
+<article class="post interest-article">
+  <p class="eyebrow">Interested</p>
+  <h1>{{ page.title }}</h1>
+
+  {% if page.description %}
+    <p class="lead">{{ page.description }}</p>
+  {% endif %}
+
+  <div class="entry">
+    {{ content }}
+  </div>
+</article>
