@@ -1,0 +1,24 @@
+---
+layout: default
+title: Interested
+---
+
+<h1>Interested</h1>
+<p class="lead">Essays and notes on topics I follow outside the technical and investment notebook.</p>
+
+<ul class="post-list">
+  {% assign interest_items = site.interests | sort: "date" | reverse %}
+  {% for item in interest_items %}
+    <li class="post-card">
+      {% if item.category %}
+        <div class="post-meta">{{ item.category }}</div>
+      {% endif %}
+      <h2><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h2>
+      {% if item.description %}
+        <p class="post-excerpt">{{ item.description }}</p>
+      {% elsif item.excerpt %}
+        <p class="post-excerpt">{{ item.excerpt | strip_html | truncatewords: 28 }}</p>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
