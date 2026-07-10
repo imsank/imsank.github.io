@@ -10,6 +10,7 @@ Run a production-style build from the repository root:
 bundle exec jekyll build --trace
 ```
 
+
 Expected result:
 
 - `_site/` is generated.
