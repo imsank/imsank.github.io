@@ -61,18 +61,24 @@ title: Home
   </div>
 </section>
 
-{% assign forensic_post_url = "/investment/" | relative_url %}
+{% assign latest_investment_post = nil %}
 {% for post in site.posts %}
-  {% if post.title == "Forensic Investing: How to Spot Financial Engineering Before It Destroys Your Capital" %}
-    {% assign forensic_post_url = post.url | relative_url %}
+  {% if post.categories contains "investment" %}
+    {% assign latest_investment_post = post %}
+    {% break %}
+  {% elsif post.tags contains "investment" %}
+    {% assign latest_investment_post = post %}
+    {% break %}
   {% endif %}
 {% endfor %}
 
+{% if latest_investment_post %}
 <section class="home-current">
   <div>
     <p class="eyebrow">Latest thread</p>
-    <h2>Forensic investing</h2>
-    <p>Notes on spotting financial engineering before a growth story turns into a capital trap.</p>
+    <h2>{{ latest_investment_post.title }}</h2>
+    <p>{{ latest_investment_post.excerpt | strip_html | strip_newlines | truncatewords: 24 }}</p>
   </div>
-  <a class="home-current__link" href="{{ forensic_post_url }}">Read the note</a>
+  <a class="home-current__link" href="{{ latest_investment_post.url | relative_url }}">Read the note</a>
 </section>
+{% endif %}
