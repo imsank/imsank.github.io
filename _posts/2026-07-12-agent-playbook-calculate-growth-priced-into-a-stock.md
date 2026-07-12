@@ -86,12 +86,13 @@ Enter figures in one consistent unit—₹ crore, $ million, or another unit. Th
   </div>
 
   <form class="expectations-inputs" id="expectations-form" novalidate>
-    <label>Current market cap<input id="expectations-market-cap" type="number" min="0.01" step="any" value="10000"></label>
-    <label><span id="expectations-metric-label">Normalized PAT</span><input id="expectations-pat" type="number" min="0.01" step="any" value="300"></label>
-    <label>Forecast period<input id="expectations-years" type="number" min="1" max="30" step="1" value="10"><small>years</small></label>
-    <label>Discount rate<input id="expectations-discount" type="number" min="0" max="50" step="0.5" value="12"><small>%</small></label>
-    <label><span id="expectations-multiple-label">Exit P/E</span><input id="expectations-exit-pe" type="number" min="0.1" max="100" step="0.5" value="20"><small>×</small></label>
-    <label><span id="expectations-growth-label">Your expected PAT CAGR</span><input id="expectations-user-growth" type="number" min="-50" max="100" step="0.5" value="13"><small>%</small></label>
+    <label><span class="expectations-field-head">Current year<button class="parameter-hint" type="button" aria-label="The financial year associated with the current earnings or revenue input.">💡</button><span class="parameter-hint__copy">The financial year for your starting PAT or revenue figure.</span></span><input id="expectations-current-year" type="number" min="1900" max="2200" step="1" value="2026"></label>
+    <label><span class="expectations-field-head">Current market cap<button class="parameter-hint" type="button" aria-label="Market capitalization is the current share price multiplied by diluted shares outstanding.">💡</button><span class="parameter-hint__copy">Share price × diluted shares. Use a value from a clearly stated date.</span></span><input id="expectations-market-cap" type="number" min="0.01" step="any" value="10000"></label>
+    <label><span class="expectations-field-head"><span id="expectations-metric-label">Normalized PAT</span><button class="parameter-hint" type="button" id="expectations-metric-hint" aria-label="Normalized PAT removes exceptional or one-time items from current profit after tax.">💡</button><span class="parameter-hint__copy" id="expectations-metric-hint-copy">Profit after tax with unusual one-time gains or losses removed.</span></span><input id="expectations-pat" type="number" min="0.01" step="any" value="300"></label>
+    <label><span class="expectations-field-head">Forecast period<button class="parameter-hint" type="button" aria-label="The number of years over which the company must reach the required future earnings or revenue.">💡</button><span class="parameter-hint__copy">How many years the business has to reach the required future result.</span></span><input id="expectations-years" type="number" min="1" max="30" step="1" value="10"><small>years</small></label>
+    <label><span class="expectations-field-head">Discount factor / required return<button class="parameter-hint" type="button" aria-label="The annual return you require for taking the investment risk. A higher rate demands stronger future results.">💡</button><span class="parameter-hint__copy">Your required annual return. More risk generally calls for a higher rate.</span></span><input id="expectations-discount" type="number" min="0" max="50" step="0.5" value="12"><small>%</small></label>
+    <label><span class="expectations-field-head"><span id="expectations-multiple-label">Valuation multiple (Exit P/E)</span><button class="parameter-hint" type="button" id="expectations-multiple-hint" aria-label="The valuation multiple investors might pay at the end of the forecast period.">💡</button><span class="parameter-hint__copy" id="expectations-multiple-hint-copy">The multiple investors may pay for the company at the end of the period.</span></span><input id="expectations-exit-pe" type="number" min="0.1" max="100" step="0.5" value="20"><small>×</small></label>
+    <label><span class="expectations-field-head"><span id="expectations-growth-label">Your expected PAT CAGR</span><button class="parameter-hint" type="button" id="expectations-growth-hint" aria-label="Your own evidence-based estimate of annual earnings growth, used to compare your view with the market-implied requirement.">💡</button><span class="parameter-hint__copy" id="expectations-growth-hint-copy">Your evidence-based growth estimate—not the growth required by the market price.</span></span><input id="expectations-user-growth" type="number" min="-50" max="100" step="0.5" value="13"><small>%</small></label>
   </form>
 
   <p class="expectations-model-note" id="expectations-model-note">Use normalized earnings for a stable, profitable company.</p>
@@ -129,9 +130,123 @@ Enter figures in one consistent unit—₹ crore, $ million, or another unit. Th
     </div>
     <div class="expectations-heatmap" id="expectations-heatmap" role="table" aria-label="Implied PAT CAGR sensitivity by discount rate and exit P/E"></div>
   </div>
+
+  <div class="expectations-live-tables">
+    <div class="expectations-live-tables__head">
+      <div><span>Scenario walkthrough</span><strong id="projection-table-title">Projected PAT by year</strong></div>
+      <small>15% · 20% · 25% · 30% · 35% growth</small>
+    </div>
+    <div class="retail-projection-table" id="expectations-projection-table" role="region" aria-label="Projected financial metric by year"></div>
+    <p class="retail-table-caption" id="projection-table-caption">Values use the same unit as your input.</p>
+
+    <div class="expectations-live-tables__head expectations-live-tables__head--second">
+      <div><span>Valuation bridge</span><strong id="valuation-table-title">Terminal and discounted values</strong></div>
+      <small id="valuation-table-assumptions">—</small>
+    </div>
+    <div class="retail-projection-table retail-projection-table--valuation" id="expectations-valuation-table" role="region" aria-label="Terminal and discounted valuation scenarios"></div>
+    <p class="expectations-live-reading" id="expectations-live-reading" aria-live="polite">—</p>
+  </div>
 </section>
 
 The defaults are illustrative, not company data. In `Revenue × P/S` mode, the calculator begins with the original framework’s illustrative assumptions of **5× Sales** and a **15% discount rate**. These are editable assumptions, not universal standards. Notice what the sensitivity map teaches: a higher required return or lower exit multiple forces the business to deliver more growth to justify the same market capitalization.
+
+## What Is the Calculator Telling Me?
+
+The calculator is not forecasting the company for you. It is translating today’s market capitalization into a **required future operating result** under the assumptions you selected.
+
+<div class="retail-reading-path" aria-label="A three-step retail investor guide to reading the calculator">
+  <div><span>1</span><strong>Read the requirement</strong><small>What future PAT or revenue must the company reach?</small></div>
+  <i aria-hidden="true">→</i>
+  <div><span>2</span><strong>Compare your evidence</strong><small>Is your driver-based growth estimate above or below it?</small></div>
+  <i aria-hidden="true">→</i>
+  <div><span>3</span><strong>Stress the assumptions</strong><small>Does the conclusion survive a lower multiple or higher discount rate?</small></div>
+</div>
+
+### Example 1: Balaji Amines Using PAT × P/E
+
+As accessed on **July 13, 2026**, Screener showed Balaji Amines at a **₹7,814 crore** market capitalization using the July 10 close, a **47.3×** stock P/E, and FY26 standalone PAT of approximately **₹166 crore**. For this illustration, select ten years, a 12% discount rate, and a 20× exit P/E. [Check the current Balaji Amines data on Screener](https://www.screener.in/company/BALAMINES/).
+
+<div class="retail-example retail-example--earnings">
+  <div class="retail-example__inputs"><span>FY26 / July 10 price</span><strong>₹166 crore PAT</strong><small>₹7,814 crore market cap · 47.3× current P/E</small></div>
+  <div class="retail-example__bridge"><span>must grow at</span><b>22.0% CAGR</b></div>
+  <div class="retail-example__output"><span>Year 10 requirement</span><strong>₹1,213.5 crore PAT</strong><small>valued at 20× and discounted at 12%</small></div>
+</div>
+
+**Retail-friendly meaning:** at these assumptions, Balaji Amines must grow PAT more than seven times—from roughly ₹166 crore to about ₹1,214 crore—over ten years. The calculator expresses that hurdle as approximately **22% annual PAT growth**.
+
+For context, Screener reported a 10-year profit CAGR of 10%, a five-year CAGR of −6%, and a three-year CAGR of −10%. If one mechanically entered 10% as the future growth assumption, the model would produce a discounted value near **₹2,773 crore**, roughly 65% below the observed market cap. That is **not** a fair-value verdict. Balaji Amines is cyclical, and FY26 PAT may not represent normalized mid-cycle earnings. The output tells the retail investor to investigate capacity, utilization, chemical spreads, demand recovery, and whether a 20× exit P/E is defensible.
+
+### Example 2: Lenskart Using Revenue × P/S
+
+The video explains the `5× Sales` method using a dated Lenskart snapshot. Keeping that snapshot intact makes its calculation reproducible:
+
+<div class="video-snapshot-table" aria-label="Lenskart inputs used in the video">
+  <div class="video-snapshot-table__head"><span>Video model inputs</span><strong>Lenskart · 2026</strong></div>
+  <dl>
+    <div><dt>Current year</dt><dd>2026</dd></div>
+    <div><dt>Current sales</dt><dd>₹8,647 crore</dd></div>
+    <div><dt>Current market cap</dt><dd>₹90,979 crore</dd></div>
+    <div><dt>Exit valuation multiple</dt><dd>5× Sales</dd></div>
+    <div><dt>Discount factor</dt><dd>15%</dd></div>
+    <div><dt>Forecast period</dt><dd>10 years</dd></div>
+  </dl>
+</div>
+
+<div class="retail-example retail-example--revenue">
+  <div class="retail-example__inputs"><span>Video snapshot</span><strong>₹8,647 crore sales</strong><small>₹90,979 crore market cap · 10.5× current P/S</small></div>
+  <div class="retail-example__bridge"><span>implied hurdle</span><b>23.9% CAGR</b></div>
+  <div class="retail-example__output"><span>Year 10 requirement</span><strong>₹73,612 crore sales</strong><small>valued at 5× Sales and discounted at 15%</small></div>
+</div>
+
+The first step is not valuation. It is simply compounding ₹8,647 crore of sales at several possible growth rates:
+
+<div class="retail-projection-table" role="region" aria-label="Lenskart projected sales scenarios">
+<table>
+  <thead><tr><th>Year</th><th>15%</th><th>20%</th><th>25%</th><th>30%</th><th>35%</th></tr></thead>
+  <tbody>
+    <tr><td>2027</td><td>9,944</td><td>10,376</td><td>10,809</td><td>11,241</td><td>11,673</td></tr>
+    <tr><td>2028</td><td>11,436</td><td>12,452</td><td>13,511</td><td>14,613</td><td>15,759</td></tr>
+    <tr><td>2029</td><td>13,151</td><td>14,942</td><td>16,889</td><td>18,997</td><td>21,275</td></tr>
+    <tr><td>2030</td><td>15,124</td><td>17,930</td><td>21,111</td><td>24,697</td><td>28,721</td></tr>
+    <tr><td>2031</td><td>17,392</td><td>21,517</td><td>26,389</td><td>32,106</td><td>38,773</td></tr>
+    <tr><td>2032</td><td>20,001</td><td>25,820</td><td>32,986</td><td>41,737</td><td>52,344</td></tr>
+    <tr><td>2033</td><td>23,001</td><td>30,984</td><td>41,232</td><td>54,259</td><td>70,665</td></tr>
+    <tr><td>2034</td><td>26,451</td><td>37,181</td><td>51,540</td><td>70,536</td><td>95,397</td></tr>
+    <tr><td>2035</td><td>30,419</td><td>44,619</td><td>64,425</td><td>91,697</td><td>1,28,786</td></tr>
+    <tr><td>2036</td><td>34,982</td><td>53,542</td><td>80,531</td><td>1,19,206</td><td>1,73,861</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="retail-table-caption">Projected sales in ₹ crore. Each column is a separate ten-year growth path.</p>
+
+Next, multiply each 2036 sales figure by 5×, discount that terminal value back ten years at 15%, and compare it with the ₹90,979 crore market cap:
+
+<div class="retail-projection-table retail-projection-table--valuation" role="region" aria-label="Lenskart discounted valuation scenarios">
+<table>
+  <thead><tr><th>Parameter</th><th>15%</th><th>20%</th><th>25%</th><th>30%</th><th>35%</th></tr></thead>
+  <tbody>
+    <tr><td>2036 sales</td><td>34,982</td><td>53,542</td><td>80,531</td><td>1,19,206</td><td>1,73,861</td></tr>
+    <tr><td>Value at 5×</td><td>1,74,910</td><td>2,67,700</td><td>4,02,657</td><td>5,96,031</td><td>8,69,307</td></tr>
+    <tr><td>Discounted value</td><td>43,235</td><td>66,171</td><td>99,531</td><td>1,47,330</td><td>2,14,879</td></tr>
+    <tr><td>Current market cap</td><td>90,979</td><td>90,979</td><td>90,979</td><td>90,979</td><td>90,979</td></tr>
+    <tr class="retail-projection-table__gap"><td>Gap vs current</td><td>−52.5%</td><td>−27.3%</td><td>+9.4%</td><td>+61.9%</td><td>+136.2%</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="retail-table-caption">Scenario values in ₹ crore, except the final percentage row.</p>
+
+**Retail-friendly meaning:** the current market cap sits between the 20% and 25% columns. Solving precisely gives an implied sales CAGR of approximately **23.9%** for ten years. In plain language, the video assumptions require Lenskart’s sales to grow from ₹8,647 crore to roughly **₹73,612 crore** by 2036.
+
+At 20% growth, the discounted value is ₹66,171 crore—below the snapshot market cap. At 25%, it is ₹99,531 crore—above it. That is why the answer lies between the two. This is the intuitive purpose of the tables: they show the growth hurdle embedded in the selected assumptions without pretending to know which growth path will occur.
+
+Revenue is not profit. Lenskart could achieve high sales growth and still fall short if margins, store economics, cash conversion, capital expenditure, or dilution disappoint. It could also outperform this simple model if growth, margins, or the eventual multiple are stronger. For a revenue model, always ask the second question: **what sustainable profit and free cash flow will that revenue eventually produce?**
+
+<p class="retail-data-note"><strong>Data note:</strong> the video snapshot is intentionally preserved to reproduce its lesson. It is not today’s data. As accessed on July 13, 2026, <a href="https://www.screener.in/company/LENSKART/consolidated/">Screener’s consolidated Lenskart page</a> showed FY26 sales of ₹8,814 crore and a July 10 market cap of ₹94,526 crore. Those updated inputs produce an implied CAGR near 24.1% under the same 5×, 15%, ten-year assumptions. Recheck all inputs before using the model.</p>
+
+<aside class="post-callout retail-calculator-rule">
+  <span class="post-callout__icon" aria-hidden="true">💡</span>
+  <div><strong>The simplest interpretation:</strong> implied growth is the hurdle embedded in your assumptions. Your expected growth is your evidence-based view. The difference between them is the expectation gap—not an automatic investment verdict.</div>
+</aside>
 
 ## Finding the Inputs
 
@@ -496,7 +611,7 @@ This playbook and calculator are for education and independent research only. Th
   var root = document.getElementById("expectations-lab");
   if (!root) return;
 
-  var ids = ["market-cap", "pat", "years", "discount", "exit-pe", "user-growth"];
+  var ids = ["current-year", "market-cap", "pat", "years", "discount", "exit-pe", "user-growth"];
   var fields = {};
   ids.forEach(function (id) { fields[id] = document.getElementById("expectations-" + id); });
   var mode = document.getElementById("expectations-mode");
@@ -554,7 +669,54 @@ This playbook and calculator are for education and independent research only. Th
     heatmap.innerHTML = html;
   }
 
+  function renderScenarioTables(currentYear, mcap, metric, years, discount, exitMultiple, implied, copy) {
+    var rates = [15, 20, 25, 30, 35];
+    var projection = '<table><thead><tr><th>Year</th>' + rates.map(function (rate) { return '<th>' + rate + '% Growth</th>'; }).join('') + '</tr></thead><tbody>';
+    for (var yearIndex = 1; yearIndex <= years; yearIndex += 1) {
+      projection += '<tr><td>' + (currentYear + yearIndex) + '</td>';
+      rates.forEach(function (rate) {
+        projection += '<td>' + fmt(metric * Math.pow(1 + rate / 100, yearIndex), 0) + '</td>';
+      });
+      projection += '</tr>';
+    }
+    projection += '</tbody></table>';
+    document.getElementById("expectations-projection-table").innerHTML = projection;
+
+    var terminalMetrics = rates.map(function (rate) { return metric * Math.pow(1 + rate / 100, years); });
+    var terminalValues = terminalMetrics.map(function (value) { return value * exitMultiple; });
+    var discountedValues = terminalValues.map(function (value) { return value / Math.pow(1 + discount / 100, years); });
+    var valuation = '<table><thead><tr><th>Parameter</th>' + rates.map(function (rate) { return '<th>' + rate + '% Growth</th>'; }).join('') + '</tr></thead><tbody>';
+    valuation += '<tr><td>' + (currentYear + years) + ' ' + copy.shortMetric + '</td>' + terminalMetrics.map(function (value) { return '<td>' + fmt(value, 0) + '</td>'; }).join('') + '</tr>';
+    valuation += '<tr><td>Valuation at ' + fmt(exitMultiple, 1) + '×</td>' + terminalValues.map(function (value) { return '<td>' + fmt(value, 0) + '</td>'; }).join('') + '</tr>';
+    valuation += '<tr><td>Discounted value</td>' + discountedValues.map(function (value) { return '<td>' + fmt(value, 0) + '</td>'; }).join('') + '</tr>';
+    valuation += '<tr><td>Current market cap</td>' + rates.map(function () { return '<td>' + fmt(mcap, 0) + '</td>'; }).join('') + '</tr>';
+    valuation += '<tr class="retail-projection-table__gap"><td>Gap vs current</td>' + discountedValues.map(function (value) { var gap = (value / mcap - 1) * 100; return '<td>' + (gap >= 0 ? '+' : '') + fmt(gap, 1) + '%</td>'; }).join('') + '</tr>';
+    valuation += '</tbody></table>';
+    document.getElementById("expectations-valuation-table").innerHTML = valuation;
+
+    document.getElementById("projection-table-title").textContent = "Projected " + copy.shortMetric + " by year";
+    document.getElementById("projection-table-caption").textContent = "Projected " + copy.shortMetric + " in " + unit.value + ". Each column is a separate growth path.";
+    document.getElementById("valuation-table-title").textContent = "Terminal and discounted " + copy.shortMetric + " values";
+    document.getElementById("valuation-table-assumptions").textContent = fmt(exitMultiple, 1) + "× " + copy.multiple + " · " + fmt(discount, 1) + "% discount · " + years + " years";
+
+    var lower = null;
+    var upper = null;
+    rates.forEach(function (rate) { if (rate <= implied) lower = rate; if (upper === null && rate >= implied) upper = rate; });
+    var reading;
+    if (implied < rates[0]) {
+      reading = "The implied " + copy.growth + " of " + fmt(implied, 1) + "% is below the lowest 15% scenario. Under these assumptions, even the 15% column produces a discounted value above the current market cap.";
+    } else if (implied > rates[rates.length - 1]) {
+      reading = "The implied " + copy.growth + " of " + fmt(implied, 1) + "% is above the highest 35% scenario. The selected valuation needs a growth path beyond this table.";
+    } else if (lower === upper) {
+      reading = "The current market cap aligns closely with the " + lower + "% growth column under the selected multiple, discount rate, and forecast period.";
+    } else {
+      reading = "The current market cap falls between the " + lower + "% and " + upper + "% growth columns. Solving precisely gives an implied " + copy.growth + " of " + fmt(implied, 1) + "% under your assumptions.";
+    }
+    document.getElementById("expectations-live-reading").textContent = reading + " This is a growth hurdle, not an investment verdict.";
+  }
+
   function update() {
+    var currentYear = Math.round(number("current-year"));
     var mcap = number("market-cap");
     var metric = number("pat");
     var years = number("years");
@@ -562,7 +724,7 @@ This playbook and calculator are for education and independent research only. Th
     var exitMultiple = number("exit-pe");
     var userGrowth = number("user-growth");
     var copy = labels();
-    var valid = [mcap, metric, years, exitMultiple].every(function (v) { return Number.isFinite(v) && v > 0; }) && Number.isFinite(discount) && Number.isFinite(userGrowth);
+    var valid = Number.isFinite(currentYear) && currentYear >= 1900 && currentYear <= 2200 && [mcap, metric, years, exitMultiple].every(function (v) { return Number.isFinite(v) && v > 0; }) && Number.isFinite(discount) && Number.isFinite(userGrowth);
     error.hidden = valid;
     if (!valid) return;
 
@@ -576,7 +738,7 @@ This playbook and calculator are for education and independent research only. Th
     var gap = userGrowth - implied;
 
     document.getElementById("expectations-metric-label").textContent = copy.metric;
-    document.getElementById("expectations-multiple-label").textContent = copy.exitMultiple;
+    document.getElementById("expectations-multiple-label").textContent = "Valuation multiple (" + copy.exitMultiple + ")";
     document.getElementById("expectations-growth-label").textContent = "Your expected " + copy.growth;
     document.getElementById("result-current-multiple-label").textContent = copy.currentMultiple;
     document.getElementById("result-required-metric-label").textContent = "Required future " + copy.shortMetric;
@@ -585,6 +747,12 @@ This playbook and calculator are for education and independent research only. Th
     document.getElementById("heatmap-title").textContent = "Implied " + copy.growth;
     document.getElementById("heatmap-description").textContent = "Rows: discount rate · Columns: exit " + copy.multiple;
     document.getElementById("expectations-model-note").textContent = mode.value === "revenue" ? "Illustrative starting point: 5× Sales and a 15% discount rate. Revenue valuation still requires a credible path to profits and cash flow." : "Use normalized earnings for a stable, profitable company.";
+    document.getElementById("expectations-metric-hint-copy").textContent = mode.value === "revenue" ? "Revenue for the latest consistent period, usually TTM or the latest financial year." : "Profit after tax with unusual one-time gains or losses removed.";
+    document.getElementById("expectations-multiple-hint-copy").textContent = mode.value === "revenue" ? "The price-to-sales multiple investors may pay at the end of the period." : "The price-to-earnings multiple investors may pay at the end of the period.";
+    document.getElementById("expectations-growth-hint-copy").textContent = "Your evidence-based " + copy.growth + " estimate—not the growth required by the market price.";
+    document.getElementById("expectations-metric-hint").setAttribute("aria-label", mode.value === "revenue" ? "Current revenue for a consistent reported period such as TTM or the latest financial year." : "Normalized PAT removes exceptional or one-time items from current profit after tax.");
+    document.getElementById("expectations-multiple-hint").setAttribute("aria-label", "The " + copy.multiple + " valuation multiple investors might pay at the end of the forecast period.");
+    document.getElementById("expectations-growth-hint").setAttribute("aria-label", "Your own evidence-based estimate of annual " + copy.growth + ", used to compare your view with the market-implied requirement.");
     document.getElementById("result-current-pe").textContent = fmt(currentMultiple, 1) + "×";
     document.getElementById("result-required-pat").textContent = money(requiredMetric);
     document.getElementById("result-implied-growth").textContent = fmt(implied, 1) + "%";
@@ -600,6 +768,7 @@ This playbook and calculator are for education and independent research only. Th
     var relation = Math.abs(gap) < 1 ? "close to" : gap > 0 ? "above" : "below";
     document.getElementById("result-interpretation").textContent = "Your " + fmt(userGrowth, 1) + "% " + copy.growth + " assumption is " + relation + " the " + fmt(implied, 1) + "% growth implied by the selected valuation assumptions. This is an expectation gap, not an investment verdict.";
     renderHeatmap(mcap, metric, years, discount, exitMultiple, copy);
+    renderScenarioTables(currentYear, mcap, metric, Math.round(years), discount, exitMultiple, implied, copy);
   }
 
   root.addEventListener("input", update);
