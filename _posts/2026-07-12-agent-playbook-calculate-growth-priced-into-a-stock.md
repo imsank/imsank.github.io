@@ -86,12 +86,12 @@ Enter figures in one consistent unit—₹ crore, $ million, or another unit. Th
   </div>
 
   <form class="expectations-inputs" id="expectations-form" novalidate>
-    <label>Current market cap<input id="expectations-market-cap" type="number" min="0.01" step="any" value="10000"></label>
-    <label><span id="expectations-metric-label">Normalized PAT</span><input id="expectations-pat" type="number" min="0.01" step="any" value="300"></label>
-    <label>Forecast period<input id="expectations-years" type="number" min="1" max="30" step="1" value="10"><small>years</small></label>
-    <label>Discount rate<input id="expectations-discount" type="number" min="0" max="50" step="0.5" value="12"><small>%</small></label>
-    <label><span id="expectations-multiple-label">Exit P/E</span><input id="expectations-exit-pe" type="number" min="0.1" max="100" step="0.5" value="20"><small>×</small></label>
-    <label><span id="expectations-growth-label">Your expected PAT CAGR</span><input id="expectations-user-growth" type="number" min="-50" max="100" step="0.5" value="13"><small>%</small></label>
+    <label><span class="expectations-field-head">Current market cap<button class="parameter-hint" type="button" aria-label="Market capitalization is the current share price multiplied by diluted shares outstanding.">💡</button><span class="parameter-hint__copy">Share price × diluted shares. Use a value from a clearly stated date.</span></span><input id="expectations-market-cap" type="number" min="0.01" step="any" value="10000"></label>
+    <label><span class="expectations-field-head"><span id="expectations-metric-label">Normalized PAT</span><button class="parameter-hint" type="button" id="expectations-metric-hint" aria-label="Normalized PAT removes exceptional or one-time items from current profit after tax.">💡</button><span class="parameter-hint__copy" id="expectations-metric-hint-copy">Profit after tax with unusual one-time gains or losses removed.</span></span><input id="expectations-pat" type="number" min="0.01" step="any" value="300"></label>
+    <label><span class="expectations-field-head">Forecast period<button class="parameter-hint" type="button" aria-label="The number of years over which the company must reach the required future earnings or revenue.">💡</button><span class="parameter-hint__copy">How many years the business has to reach the required future result.</span></span><input id="expectations-years" type="number" min="1" max="30" step="1" value="10"><small>years</small></label>
+    <label><span class="expectations-field-head">Discount rate<button class="parameter-hint" type="button" aria-label="The annual return you require for taking the investment risk. A higher rate demands stronger future results.">💡</button><span class="parameter-hint__copy">Your required annual return. More risk generally calls for a higher rate.</span></span><input id="expectations-discount" type="number" min="0" max="50" step="0.5" value="12"><small>%</small></label>
+    <label><span class="expectations-field-head"><span id="expectations-multiple-label">Exit P/E</span><button class="parameter-hint" type="button" id="expectations-multiple-hint" aria-label="The valuation multiple investors might pay at the end of the forecast period.">💡</button><span class="parameter-hint__copy" id="expectations-multiple-hint-copy">The multiple investors may pay for the company at the end of the period.</span></span><input id="expectations-exit-pe" type="number" min="0.1" max="100" step="0.5" value="20"><small>×</small></label>
+    <label><span class="expectations-field-head"><span id="expectations-growth-label">Your expected PAT CAGR</span><button class="parameter-hint" type="button" id="expectations-growth-hint" aria-label="Your own evidence-based estimate of annual earnings growth, used to compare your view with the market-implied requirement.">💡</button><span class="parameter-hint__copy" id="expectations-growth-hint-copy">Your evidence-based growth estimate—not the growth required by the market price.</span></span><input id="expectations-user-growth" type="number" min="-50" max="100" step="0.5" value="13"><small>%</small></label>
   </form>
 
   <p class="expectations-model-note" id="expectations-model-note">Use normalized earnings for a stable, profitable company.</p>
@@ -132,6 +132,55 @@ Enter figures in one consistent unit—₹ crore, $ million, or another unit. Th
 </section>
 
 The defaults are illustrative, not company data. In `Revenue × P/S` mode, the calculator begins with the original framework’s illustrative assumptions of **5× Sales** and a **15% discount rate**. These are editable assumptions, not universal standards. Notice what the sensitivity map teaches: a higher required return or lower exit multiple forces the business to deliver more growth to justify the same market capitalization.
+
+## What Is the Calculator Telling Me?
+
+The calculator is not forecasting the company for you. It is translating today’s market capitalization into a **required future operating result** under the assumptions you selected.
+
+<div class="retail-reading-path" aria-label="A three-step retail investor guide to reading the calculator">
+  <div><span>1</span><strong>Read the requirement</strong><small>What future PAT or revenue must the company reach?</small></div>
+  <i aria-hidden="true">→</i>
+  <div><span>2</span><strong>Compare your evidence</strong><small>Is your driver-based growth estimate above or below it?</small></div>
+  <i aria-hidden="true">→</i>
+  <div><span>3</span><strong>Stress the assumptions</strong><small>Does the conclusion survive a lower multiple or higher discount rate?</small></div>
+</div>
+
+### Example 1: Balaji Amines Using PAT × P/E
+
+As accessed on **July 13, 2026**, Screener showed Balaji Amines at a **₹7,814 crore** market capitalization using the July 10 close, a **47.3×** stock P/E, and FY26 standalone PAT of approximately **₹166 crore**. For this illustration, select ten years, a 12% discount rate, and a 20× exit P/E. [Check the current Balaji Amines data on Screener](https://www.screener.in/company/BALAMINES/).
+
+<div class="retail-example retail-example--earnings">
+  <div class="retail-example__inputs"><span>FY26 / July 10 price</span><strong>₹166 crore PAT</strong><small>₹7,814 crore market cap · 47.3× current P/E</small></div>
+  <div class="retail-example__bridge"><span>must grow at</span><b>22.0% CAGR</b></div>
+  <div class="retail-example__output"><span>Year 10 requirement</span><strong>₹1,213.5 crore PAT</strong><small>valued at 20× and discounted at 12%</small></div>
+</div>
+
+**Retail-friendly meaning:** at these assumptions, Balaji Amines must grow PAT more than seven times—from roughly ₹166 crore to about ₹1,214 crore—over ten years. The calculator expresses that hurdle as approximately **22% annual PAT growth**.
+
+For context, Screener reported a 10-year profit CAGR of 10%, a five-year CAGR of −6%, and a three-year CAGR of −10%. If one mechanically entered 10% as the future growth assumption, the model would produce a discounted value near **₹2,773 crore**, roughly 65% below the observed market cap. That is **not** a fair-value verdict. Balaji Amines is cyclical, and FY26 PAT may not represent normalized mid-cycle earnings. The output tells the retail investor to investigate capacity, utilization, chemical spreads, demand recovery, and whether a 20× exit P/E is defensible.
+
+### Example 2: Lenskart Using Revenue × P/S
+
+The video’s `5× Sales` idea is especially intuitive for a new-age consumer company. As accessed on **July 13, 2026**, Screener showed Lenskart at a **₹94,526 crore** market capitalization using the July 10 close and FY26 standalone sales of **₹5,248 crore**—about **18× current sales**. Apply the illustrative ten-year period, 15% discount rate, and 5× exit P/S. [Check the current Lenskart data on Screener](https://www.screener.in/company/LENSKART/).
+
+<div class="retail-example retail-example--revenue">
+  <div class="retail-example__inputs"><span>FY26 / July 10 price</span><strong>₹5,248 crore sales</strong><small>₹94,526 crore market cap · 18.0× current P/S</small></div>
+  <div class="retail-example__bridge"><span>must grow at</span><b>30.7% CAGR</b></div>
+  <div class="retail-example__output"><span>Year 10 requirement</span><strong>₹76,482 crore sales</strong><small>valued at 5× Sales and discounted at 15%</small></div>
+</div>
+
+**Retail-friendly meaning:** because this example assumes the sales multiple falls from about 18× today to 5× in year ten, revenue must grow more than fourteen times—to roughly **₹76,482 crore**—for the selected return requirement to reconcile with today’s market cap. That is approximately **30.7% annual revenue growth for a decade**.
+
+If a retail investor instead assumes 20% annual revenue growth, the model produces a discounted value near **₹40,160 crore**, roughly 58% below the observed market cap under the same 5× exit P/S and 15% discount rate. Again, this is not a recommendation. It exposes how demanding the combination of growth, time, discount rate, and multiple compression is.
+
+Revenue is not profit. Lenskart could achieve high sales growth and still fall short if margins, store economics, cash conversion, capital expenditure, or dilution disappoint. It could also outperform this simple model if growth, margins, or the eventual multiple are stronger. For a revenue model, always ask the second question: **what sustainable profit and free cash flow will that revenue eventually produce?**
+
+<p class="retail-data-note"><strong>Data note:</strong> these are dated educational snapshots from Screener, not live calculator feeds. Market values move daily, reported figures may be standalone or consolidated, and PAT may require normalization. Recheck the source before reproducing either calculation.</p>
+
+<aside class="post-callout retail-calculator-rule">
+  <span class="post-callout__icon" aria-hidden="true">💡</span>
+  <div><strong>The simplest interpretation:</strong> implied growth is the hurdle embedded in your assumptions. Your expected growth is your evidence-based view. The difference between them is the expectation gap—not an automatic investment verdict.</div>
+</aside>
 
 ## Finding the Inputs
 
@@ -585,6 +634,12 @@ This playbook and calculator are for education and independent research only. Th
     document.getElementById("heatmap-title").textContent = "Implied " + copy.growth;
     document.getElementById("heatmap-description").textContent = "Rows: discount rate · Columns: exit " + copy.multiple;
     document.getElementById("expectations-model-note").textContent = mode.value === "revenue" ? "Illustrative starting point: 5× Sales and a 15% discount rate. Revenue valuation still requires a credible path to profits and cash flow." : "Use normalized earnings for a stable, profitable company.";
+    document.getElementById("expectations-metric-hint-copy").textContent = mode.value === "revenue" ? "Revenue for the latest consistent period, usually TTM or the latest financial year." : "Profit after tax with unusual one-time gains or losses removed.";
+    document.getElementById("expectations-multiple-hint-copy").textContent = mode.value === "revenue" ? "The price-to-sales multiple investors may pay at the end of the period." : "The price-to-earnings multiple investors may pay at the end of the period.";
+    document.getElementById("expectations-growth-hint-copy").textContent = "Your evidence-based " + copy.growth + " estimate—not the growth required by the market price.";
+    document.getElementById("expectations-metric-hint").setAttribute("aria-label", mode.value === "revenue" ? "Current revenue for a consistent reported period such as TTM or the latest financial year." : "Normalized PAT removes exceptional or one-time items from current profit after tax.");
+    document.getElementById("expectations-multiple-hint").setAttribute("aria-label", "The " + copy.multiple + " valuation multiple investors might pay at the end of the forecast period.");
+    document.getElementById("expectations-growth-hint").setAttribute("aria-label", "Your own evidence-based estimate of annual " + copy.growth + ", used to compare your view with the market-implied requirement.");
     document.getElementById("result-current-pe").textContent = fmt(currentMultiple, 1) + "×";
     document.getElementById("result-required-pat").textContent = money(requiredMetric);
     document.getElementById("result-implied-growth").textContent = fmt(implied, 1) + "%";
