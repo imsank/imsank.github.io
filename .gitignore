@@ -4,3 +4,4 @@ _site/
 .bundle/
 vendor/
 jekyll.*.log
+.jekyll-preview*.log
