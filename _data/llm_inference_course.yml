@@ -1,0 +1,51 @@
+title: "LLM Inference Engineering for ML Engineers"
+subtitle: "First principles, production systems, and Google L5 interview reasoning"
+home_url: "/ai/llm-inference-engineering/"
+chapters:
+  - number: 0
+    title: "Foundation (Prerequisites)"
+    status: available
+    sections:
+      - number: "0.1"
+        title: "Life of an LLM Request"
+        status: available
+        url: "/ai/llm-inference-engineering/foundation/life-of-an-llm-request/"
+      - number: "0.2"
+        title: "Transformer Inference Refresher"
+        status: coming_soon
+  - number: 1
+    title: "Performance Fundamentals"
+    status: coming_soon
+  - number: 2
+    title: "KV Cache"
+    status: coming_soon
+  - number: 3
+    title: "Batching"
+    status: coming_soon
+  - number: 4
+    title: "Memory Optimization"
+    status: coming_soon
+  - number: 5
+    title: "Faster Generation"
+    status: coming_soon
+  - number: 6
+    title: "Model Compression"
+    status: coming_soon
+  - number: 7
+    title: "Distributed Inference"
+    status: coming_soon
+  - number: 8
+    title: "Serving Systems"
+    status: coming_soon
+  - number: 9
+    title: "Production Engineering"
+    status: coming_soon
+  - number: 10
+    title: "Open Source Ecosystem"
+    status: coming_soon
+  - number: 11
+    title: "Research Frontier"
+    status: coming_soon
+  - number: 12
+    title: "Interview Preparation"
+    status: coming_soon

@@ -16,6 +16,8 @@ collections:
   interests:
     output: true
     permalink: /interested/:name/
+  course_sections:
+    output: true
 
 header_pages:
   - index.md

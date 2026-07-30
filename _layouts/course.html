@@ -1,0 +1,63 @@
+---
+layout: default
+---
+
+<div class="course-mobile-bar">
+  <button
+    class="course-menu-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="course-sidebar"
+    data-course-menu-toggle
+  >
+    <span aria-hidden="true">☰</span>
+    <span>Course contents</span>
+  </button>
+  {% if page.section_number %}
+    <span class="course-mobile-context">Section {{ page.section_number }}</span>
+  {% endif %}
+</div>
+
+<div class="course-layout" data-course-layout>
+  <div class="course-backdrop" data-course-backdrop hidden></div>
+
+  <aside class="course-sidebar" id="course-sidebar" aria-label="Course navigation" data-course-sidebar>
+    {% include course_sidebar.html %}
+  </aside>
+
+  <article class="course-lesson">
+    <header class="course-lesson__header">
+      <nav class="course-breadcrumbs" aria-label="Breadcrumb">
+        <a href="{{ site.data.llm_inference_course.home_url | relative_url }}">Course</a>
+        {% if page.chapter_title %}
+          <span aria-hidden="true">/</span>
+          <span>{{ page.chapter_title }}</span>
+        {% endif %}
+      </nav>
+
+      {% if page.section_number %}
+        <p class="course-section-kicker">Section {{ page.section_number }}</p>
+        <h1>{{ page.title }}</h1>
+      {% endif %}
+    </header>
+
+    <div class="course-reading" data-course-reading>
+      {{ content }}
+    </div>
+
+    {% if page.section_number %}
+      <nav class="course-pagination" aria-label="Lesson navigation">
+        <a class="course-pagination__item" href="{{ site.data.llm_inference_course.home_url | relative_url }}">
+          <span>Course home</span>
+          <strong>View the full learning path</strong>
+        </a>
+        <span class="course-pagination__item course-pagination__item--disabled" aria-disabled="true">
+          <span>Next section · Coming soon</span>
+          <strong>Transformer Inference Refresher</strong>
+        </span>
+      </nav>
+    {% endif %}
+  </article>
+</div>
+
+<script src="{{ '/assets/course/course.js' | relative_url }}" defer></script>
