@@ -1,0 +1,74 @@
+<section class="request-lifecycle-lab" data-request-lifecycle aria-labelledby="request-lifecycle-title">
+  <div class="request-lifecycle-lab__intro">
+    <div>
+      <p class="course-component-kicker">Interactive mental model</p>
+      <h2 id="request-lifecycle-title">Follow one request from Send to cleanup</h2>
+      <p>Advance one engine event at a time. Watch the API request, model input, KV cache, and client-visible text move on different clocks.</p>
+    </div>
+
+    <div class="request-lifecycle-controls" aria-label="Request lifecycle controls">
+      <button type="button" data-lifecycle-send>Send</button>
+      <button type="button" data-lifecycle-next disabled>Next step</button>
+      <button type="button" data-lifecycle-cancel disabled>Cancel</button>
+      <button type="button" class="is-secondary" data-lifecycle-reset>Reset</button>
+    </div>
+  </div>
+
+  <div class="request-lifecycle-diagram" tabindex="0" aria-label="Scrollable request lifecycle diagram">
+    <svg viewBox="0 0 1160 148" role="img" aria-labelledby="request-flow-title request-flow-desc">
+      <title id="request-flow-title">LLM request lifecycle</title>
+      <desc id="request-flow-desc">Ten stages from receiving a request through cache cleanup. The active stage changes as the learner advances the simulation.</desc>
+      <path class="request-flow-line" d="M70 56 H1090" />
+      {% assign stages = "receive,render,tokenize,queue,prefill,sample,decode,stream,eos,cleanup" | split: "," %}
+      {% assign labels = "Receive,Render,Tokenize,Queue,Prefill,Sample,Decode,Stream,EOS,Cleanup" | split: "," %}
+      {% for stage in stages %}
+        {% assign x = forloop.index0 | times: 113 | plus: 70 %}
+        <g class="request-flow-node" data-lifecycle-node="{{ stage }}" transform="translate({{ x }},56)">
+          <circle r="18"></circle>
+          <text class="request-flow-node__number" text-anchor="middle" dominant-baseline="middle">{{ forloop.index }}</text>
+          <text class="request-flow-node__label" y="47" text-anchor="middle">{{ labels[forloop.index0] }}</text>
+        </g>
+      {% endfor %}
+    </svg>
+  </div>
+
+  <div class="request-state-grid">
+    <section>
+      <span>Request state</span>
+      <strong data-lifecycle-request>Not sent</strong>
+    </section>
+    <section>
+      <span>Model input</span>
+      <strong data-lifecycle-input>—</strong>
+    </section>
+    <section>
+      <span>KV-cache length</span>
+      <strong data-lifecycle-cache>0 positions</strong>
+    </section>
+    <section>
+      <span>Client sees</span>
+      <strong data-lifecycle-client>Nothing yet</strong>
+    </section>
+  </div>
+
+  <p class="request-lifecycle-reading" data-lifecycle-explanation>
+    Press Send to create the request. The model has not received anything yet.
+  </p>
+  <p class="visually-hidden" aria-live="polite" data-lifecycle-live></p>
+
+  <details class="request-lifecycle-fallback">
+    <summary>Static lifecycle summary</summary>
+    <ol>
+      <li>Receive and validate the application request.</li>
+      <li>Render messages into the model's chat template.</li>
+      <li>Tokenize the rendered sequence.</li>
+      <li>Admit and queue the request for scheduler work.</li>
+      <li>Prefill the prompt and create its initial KV state.</li>
+      <li>Sample the first generated token from prefill logits.</li>
+      <li>Feed the selected token to decode the following token.</li>
+      <li>Detokenize stable text and stream it to the client.</li>
+      <li>Detect EOS or another terminal condition.</li>
+      <li>Finalize the stream and release request resources.</li>
+    </ol>
+  </details>
+</section>
