@@ -1,0 +1,180 @@
+<section class="tensor-explorer" data-tensor-explorer aria-labelledby="tensor-explorer-title">
+  <header class="tensor-explorer__intro">
+    <div>
+      <p class="course-component-kicker">Interactive shape lab</p>
+      <h2 id="tensor-explorer-title">Open the model runner</h2>
+      <p>Change the invocation and watch the current query length separate from retained K/V length.</p>
+    </div>
+    <div class="tensor-phase" role="radiogroup" aria-label="Inference phase">
+      <label>
+        <input type="radio" name="tensor-phase" value="prefill" checked data-tensor-phase>
+        <span>Prefill</span>
+      </label>
+      <label>
+        <input type="radio" name="tensor-phase" value="decode" data-tensor-phase>
+        <span>Decode</span>
+      </label>
+    </div>
+  </header>
+
+  <div class="tensor-explorer__controls" aria-label="Model dimensions">
+    <label>
+      <span>Sequences <code>B</code></span>
+      <select data-tensor-input="batch">
+        <option value="1" selected>1</option>
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="8">8</option>
+      </select>
+    </label>
+    <label>
+      <span>New tokens <code>S</code></span>
+      <input type="range" min="1" max="512" value="128" step="1" data-tensor-input="newTokens" aria-describedby="new-token-value">
+      <output id="new-token-value" data-tensor-output="newTokens">128</output>
+    </label>
+    <label>
+      <span>Cached prefix <code>C</code></span>
+      <input type="range" min="0" max="4096" value="0" step="64" data-tensor-input="cached" aria-describedby="cached-token-value">
+      <output id="cached-token-value" data-tensor-output="cached">0</output>
+    </label>
+    <label>
+      <span>Layers <code>L</code></span>
+      <input type="range" min="1" max="96" value="32" step="1" data-tensor-input="layers" aria-describedby="layer-value">
+      <output id="layer-value" data-tensor-output="layers">32</output>
+    </label>
+    <label>
+      <span>Query heads <code>Hq</code></span>
+      <select data-tensor-input="queryHeads">
+        <option value="8">8</option>
+        <option value="16">16</option>
+        <option value="32" selected>32</option>
+        <option value="64">64</option>
+      </select>
+    </label>
+    <label>
+      <span>KV heads <code>Hkv</code></span>
+      <select data-tensor-input="kvHeads">
+        <option value="1">1 · MQA</option>
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="8" selected>8 · GQA</option>
+        <option value="16">16</option>
+        <option value="32">32 · MHA at Hq=32</option>
+      </select>
+    </label>
+    <label>
+      <span>Head width <code>Dh</code></span>
+      <select data-tensor-input="headDim">
+        <option value="64">64</option>
+        <option value="128" selected>128</option>
+        <option value="256">256</option>
+      </select>
+    </label>
+    <label>
+      <span>Cache dtype</span>
+      <select data-tensor-input="bytes">
+        <option value="1">1 byte · INT8/FP8</option>
+        <option value="2" selected>2 bytes · FP16/BF16</option>
+        <option value="4">4 bytes · FP32</option>
+      </select>
+    </label>
+  </div>
+
+  <p class="tensor-explorer__validation" data-tensor-validation role="status"></p>
+
+  <div class="tensor-explorer__diagram" aria-label="Transformer tensor dataflow">
+    <svg viewBox="0 0 960 330" role="img" aria-labelledby="tensor-svg-title tensor-svg-desc">
+      <title id="tensor-svg-title">Tensor shapes through one attention layer</title>
+      <desc id="tensor-svg-desc">New hidden states form queries, keys, and values. New keys and values append to retained cache, attention reads the total context, and the output returns to the residual stream.</desc>
+      <defs>
+        <marker id="tensor-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+          <path d="M0,0 L8,4 L0,8 z"></path>
+        </marker>
+      </defs>
+      <path class="tensor-flow-line" d="M170 83 H236"></path>
+      <path class="tensor-flow-line" d="M418 83 H475"></path>
+      <path class="tensor-flow-line" d="M658 83 H722"></path>
+      <path class="tensor-flow-line" d="M334 130 V183 H477"></path>
+      <path class="tensor-flow-line" d="M565 130 V183"></path>
+      <path class="tensor-flow-line" d="M657 225 H722"></path>
+      <g class="tensor-node tensor-node--input">
+        <rect x="20" y="40" width="150" height="86" rx="12"></rect>
+        <text x="38" y="66" class="tensor-node__label">Hidden states</text>
+        <text x="38" y="96" class="tensor-node__shape" data-tensor-shape="hidden">[1,128,4096]</text>
+        <text x="38" y="114" class="tensor-node__hint">new work only</text>
+      </g>
+      <g class="tensor-node tensor-node--query">
+        <rect x="236" y="40" width="182" height="86" rx="12"></rect>
+        <text x="254" y="66" class="tensor-node__label">Queries Q</text>
+        <text x="254" y="96" class="tensor-node__shape" data-tensor-shape="query">[1,32,128,128]</text>
+        <text x="254" y="114" class="tensor-node__hint">not retained</text>
+      </g>
+      <g class="tensor-node tensor-node--attention">
+        <rect x="475" y="40" width="183" height="86" rx="12"></rect>
+        <text x="493" y="66" class="tensor-node__label">Attention scores</text>
+        <text x="493" y="96" class="tensor-node__shape" data-tensor-shape="scores">[1,32,128,128]</text>
+        <text x="493" y="114" class="tensor-node__hint">logical shape</text>
+      </g>
+      <g class="tensor-node tensor-node--output">
+        <rect x="722" y="40" width="218" height="86" rx="12"></rect>
+        <text x="740" y="66" class="tensor-node__label">Attention output</text>
+        <text x="740" y="96" class="tensor-node__shape" data-tensor-shape="output">[1,128,4096]</text>
+        <text x="740" y="114" class="tensor-node__hint">back to residual stream</text>
+      </g>
+      <g class="tensor-node tensor-node--new-kv">
+        <rect x="236" y="183" width="182" height="86" rx="12"></rect>
+        <text x="254" y="209" class="tensor-node__label">New K and V</text>
+        <text x="254" y="239" class="tensor-node__shape" data-tensor-shape="newKv">[1,8,128,128]</text>
+        <text x="254" y="257" class="tensor-node__hint">append at every layer</text>
+      </g>
+      <g class="tensor-node tensor-node--cache">
+        <rect x="475" y="183" width="182" height="86" rx="12"></rect>
+        <text x="493" y="209" class="tensor-node__label">Retained K/V</text>
+        <text x="493" y="239" class="tensor-node__shape" data-tensor-shape="cache">[1,8,128,128]</text>
+        <text x="493" y="257" class="tensor-node__hint" data-tensor-cache-hint>T = S</text>
+      </g>
+      <g class="tensor-node tensor-node--memory">
+        <rect x="722" y="183" width="218" height="86" rx="12"></rect>
+        <text x="740" y="209" class="tensor-node__label">KV memory</text>
+        <text x="740" y="239" class="tensor-node__shape" data-tensor-shape="memory">512 MiB</text>
+        <text x="740" y="257" class="tensor-node__hint">all layers · K and V</text>
+      </g>
+      <text x="20" y="307" class="tensor-diagram-caption" data-tensor-caption>Fresh prefill: 128 query rows establish 128 retained positions.</text>
+    </svg>
+  </div>
+
+  <div class="tensor-metrics" aria-live="polite" data-tensor-live>
+    <section>
+      <span>Current work</span>
+      <strong data-tensor-metric="phase">Prefill · S = 128</strong>
+    </section>
+    <section>
+      <span>Total attention length</span>
+      <strong data-tensor-metric="total">T = 128</strong>
+    </section>
+    <section>
+      <span>KV per token</span>
+      <strong data-tensor-metric="perToken">128 KiB</strong>
+    </section>
+    <section>
+      <span>GQA sharing</span>
+      <strong data-tensor-metric="sharing">4 query heads / KV head</strong>
+    </section>
+  </div>
+
+  <details class="tensor-explorer__fallback">
+    <summary>Static shape and formula reference</summary>
+    <div class="course-table-wrap">
+      <table>
+        <thead><tr><th>Tensor</th><th>Shape</th><th>Lifetime</th></tr></thead>
+        <tbody>
+          <tr><td>Q</td><td><code>[B,Hq,S,Dh]</code></td><td>Current invocation</td></tr>
+          <tr><td>New K/V</td><td><code>[B,Hkv,S,Dh]</code></td><td>Appended</td></tr>
+          <tr><td>Retained K/V</td><td><code>[B,Hkv,T,Dh]</code></td><td>Per request, per layer</td></tr>
+          <tr><td>Scores</td><td><code>[B,Hq,S,T]</code></td><td>Logical temporary</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><code>KV bytes = B × T × 2 × L × Hkv × Dh × bytes_per_element</code></p>
+  </details>
+</section>

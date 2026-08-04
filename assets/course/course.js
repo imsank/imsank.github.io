@@ -31,7 +31,7 @@
   });
 
   var root = document.querySelector("[data-request-lifecycle]");
-  if (!root) return;
+  if (root) {
 
   var steps = [
     {
@@ -192,4 +192,119 @@
   });
 
   render();
+  }
+
+  var tensorRoot = document.querySelector("[data-tensor-explorer]");
+  if (tensorRoot) {
+    var tensorInputs = {};
+    Array.prototype.forEach.call(tensorRoot.querySelectorAll("[data-tensor-input]"), function (input) {
+      tensorInputs[input.getAttribute("data-tensor-input")] = input;
+    });
+
+    var phaseInputs = Array.prototype.slice.call(tensorRoot.querySelectorAll("[data-tensor-phase]"));
+    var validation = tensorRoot.querySelector("[data-tensor-validation]");
+    var prefillTokens = Number(tensorInputs.newTokens.value);
+
+    function numberValue(name) {
+      return Number(tensorInputs[name].value);
+    }
+
+    function setText(selector, value) {
+      var element = tensorRoot.querySelector(selector);
+      if (element) element.textContent = value;
+    }
+
+    function shape(values) {
+      return "[" + values.join(",") + "]";
+    }
+
+    function formatBytes(bytes) {
+      var units = ["bytes", "KiB", "MiB", "GiB", "TiB"];
+      var value = bytes;
+      var unit = 0;
+      while (value >= 1024 && unit < units.length - 1) {
+        value /= 1024;
+        unit += 1;
+      }
+      var digits = value >= 100 || unit === 0 ? 0 : value >= 10 ? 1 : 2;
+      return value.toFixed(digits) + " " + units[unit];
+    }
+
+    function currentPhase() {
+      var selected = phaseInputs.filter(function (input) { return input.checked; })[0];
+      return selected ? selected.value : "prefill";
+    }
+
+    function renderTensorExplorer() {
+      var phase = currentPhase();
+      var batch = numberValue("batch");
+      var newTokens = numberValue("newTokens");
+      var cached = numberValue("cached");
+      var layers = numberValue("layers");
+      var queryHeads = numberValue("queryHeads");
+      var kvHeads = numberValue("kvHeads");
+      var headDim = numberValue("headDim");
+      var bytesPerElement = numberValue("bytes");
+      var hiddenDim = queryHeads * headDim;
+      var total = cached + newTokens;
+      var validGroups = queryHeads % kvHeads === 0;
+      var groupSize = validGroups ? queryHeads / kvHeads : null;
+      var kvPerToken = 2 * layers * kvHeads * headDim * bytesPerElement;
+      var totalKv = batch * total * kvPerToken;
+
+      setText('[data-tensor-output="newTokens"]', String(newTokens));
+      setText('[data-tensor-output="cached"]', String(cached));
+      setText('[data-tensor-output="layers"]', String(layers));
+      setText('[data-tensor-shape="hidden"]', shape([batch, newTokens, hiddenDim]));
+      setText('[data-tensor-shape="query"]', shape([batch, queryHeads, newTokens, headDim]));
+      setText('[data-tensor-shape="newKv"]', shape([batch, kvHeads, newTokens, headDim]));
+      setText('[data-tensor-shape="cache"]', shape([batch, kvHeads, total, headDim]));
+      setText('[data-tensor-shape="scores"]', shape([batch, queryHeads, newTokens, total]));
+      setText('[data-tensor-shape="output"]', shape([batch, newTokens, hiddenDim]));
+      setText('[data-tensor-shape="memory"]', formatBytes(totalKv));
+      setText('[data-tensor-cache-hint]', "T = " + cached + " + " + newTokens + " = " + total);
+      setText('[data-tensor-metric="phase"]', (phase === "decode" ? "Decode" : "Prefill") + " · S = " + newTokens);
+      setText('[data-tensor-metric="total"]', "T = " + total);
+      setText('[data-tensor-metric="perToken"]', formatBytes(kvPerToken));
+      setText('[data-tensor-metric="sharing"]', validGroups ? groupSize + " query head" + (groupSize === 1 ? "" : "s") + " / KV head" : "Invalid head grouping");
+
+      var caption;
+      if (phase === "decode") {
+        caption = "Cached decode: one new query row reads " + total + " retained positions and appends one K/V position per layer.";
+      } else if (cached > 0) {
+        caption = "Chunked prefill: " + newTokens + " new query rows extend a cached prefix of " + cached + " positions.";
+      } else {
+        caption = "Fresh prefill: " + newTokens + " query rows establish " + total + " retained positions.";
+      }
+      setText('[data-tensor-caption]', caption);
+
+      validation.classList.toggle("is-error", !validGroups);
+      validation.textContent = validGroups
+        ? "Valid GQA layout: Hq is divisible by Hkv. Hidden width D = " + queryHeads + " × " + headDim + " = " + hiddenDim + "."
+        : "Invalid layout: query heads must be divisible by KV heads for this GQA mapping.";
+    }
+
+    phaseInputs.forEach(function (input) {
+      input.addEventListener("change", function () {
+        if (!input.checked) return;
+        if (input.value === "decode") {
+          prefillTokens = Math.max(2, numberValue("newTokens"));
+          tensorInputs.newTokens.value = "1";
+          tensorInputs.newTokens.disabled = true;
+          if (numberValue("cached") === 0) tensorInputs.cached.value = "128";
+        } else {
+          tensorInputs.newTokens.disabled = false;
+          tensorInputs.newTokens.value = String(prefillTokens);
+        }
+        renderTensorExplorer();
+      });
+    });
+
+    Object.keys(tensorInputs).forEach(function (name) {
+      tensorInputs[name].addEventListener("input", renderTensorExplorer);
+      tensorInputs[name].addEventListener("change", renderTensorExplorer);
+    });
+
+    renderTensorExplorer();
+  }
 })();

@@ -7,10 +7,13 @@ chapter_number: 0
 chapter_title: "Foundation (Prerequisites)"
 section_number: "0.1"
 section_order: 1
+next_url: /ai/llm-inference-engineering/foundation/transformer-inference-refresher/
+next_title: "Transformer Inference Refresher"
 permalink: /ai/llm-inference-engineering/foundation/life-of-an-llm-request/
 ---
 
 <!-- Generated from G_prep_mle_course. Edit the authoritative Markdown source, then republish. -->
+
 ## Why This Section Exists
 
 You already know what a Transformer does mathematically. The inference-engineering

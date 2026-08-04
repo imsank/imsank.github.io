@@ -12,7 +12,8 @@ chapters:
         url: "/ai/llm-inference-engineering/foundation/life-of-an-llm-request/"
       - number: "0.2"
         title: "Transformer Inference Refresher"
-        status: coming_soon
+        status: available
+        url: "/ai/llm-inference-engineering/foundation/transformer-inference-refresher/"
   - number: 1
     title: "Performance Fundamentals"
     status: coming_soon
