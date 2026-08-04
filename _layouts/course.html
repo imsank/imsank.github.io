@@ -47,14 +47,29 @@ layout: default
 
     {% if page.section_number %}
       <nav class="course-pagination" aria-label="Lesson navigation">
-        <a class="course-pagination__item" href="{{ site.data.llm_inference_course.home_url | relative_url }}">
-          <span>Course home</span>
-          <strong>View the full learning path</strong>
-        </a>
-        <span class="course-pagination__item course-pagination__item--disabled" aria-disabled="true">
-          <span>Next section · Coming soon</span>
-          <strong>Transformer Inference Refresher</strong>
-        </span>
+        {% if page.previous_url %}
+          <a class="course-pagination__item" href="{{ page.previous_url | relative_url }}">
+            <span>Previous section</span>
+            <strong>{{ page.previous_title }}</strong>
+          </a>
+        {% else %}
+          <a class="course-pagination__item" href="{{ site.data.llm_inference_course.home_url | relative_url }}">
+            <span>Course home</span>
+            <strong>View the full learning path</strong>
+          </a>
+        {% endif %}
+
+        {% if page.next_url %}
+          <a class="course-pagination__item" href="{{ page.next_url | relative_url }}">
+            <span>Next section</span>
+            <strong>{{ page.next_title }}</strong>
+          </a>
+        {% else %}
+          <span class="course-pagination__item course-pagination__item--disabled" aria-disabled="true">
+            <span>Next section · Coming soon</span>
+            <strong>{{ page.next_title | default: "More course material" }}</strong>
+          </span>
+        {% endif %}
       </nav>
     {% endif %}
   </article>

@@ -454,6 +454,10 @@
   font-weight: 800;
 }
 
+.course-now + .course-now {
+  margin-top: 1rem;
+}
+
 .request-lifecycle-lab {
   margin: 2rem 0 2.6rem;
   padding: 1rem;
@@ -636,6 +640,280 @@
   font-weight: 700;
 }
 
+.tensor-explorer {
+  margin: 2rem 0 2.6rem;
+  padding: 1rem;
+  background: var(--course-panel);
+  border: 1px solid var(--course-line);
+  border-radius: 15px;
+  box-shadow: var(--course-shadow);
+}
+
+.tensor-explorer__intro {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: end;
+  margin-bottom: 1rem;
+}
+
+.tensor-explorer__intro h2 {
+  margin: 0.3rem 0 0.5rem;
+  padding: 0;
+  border: 0;
+  font-size: 1.45rem;
+  font-style: normal;
+}
+
+.tensor-explorer__intro p {
+  max-width: 62ch;
+  margin-bottom: 0;
+  color: var(--course-muted);
+  font-size: 0.75rem;
+}
+
+.tensor-phase {
+  display: inline-flex;
+  flex: none;
+  padding: 0.2rem;
+  background: var(--bg);
+  border: 1px solid var(--course-line);
+  border-radius: 9px;
+}
+
+.tensor-phase label {
+  position: relative;
+  cursor: pointer;
+}
+
+.tensor-phase input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+
+.tensor-phase span {
+  display: block;
+  padding: 0.48rem 0.72rem;
+  color: var(--course-muted);
+  border-radius: 7px;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.tensor-phase input:checked + span {
+  color: #203c31;
+  background: var(--course-green);
+}
+
+.tensor-phase input:focus-visible + span {
+  outline: 2px solid var(--course-coral);
+  outline-offset: 2px;
+}
+
+.tensor-explorer__controls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.65rem;
+  padding: 0.8rem;
+  background: var(--bg);
+  border: 1px solid var(--course-line);
+  border-radius: 11px;
+}
+
+.tensor-explorer__controls label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.42rem 0.5rem;
+  align-items: center;
+  min-width: 0;
+  color: var(--course-copy);
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.tensor-explorer__controls label > span {
+  grid-column: 1 / -1;
+}
+
+.tensor-explorer__controls code {
+  padding: 0.08rem 0.25rem;
+  color: var(--course-coral);
+  background: transparent;
+  border: 0;
+  font-size: 0.62rem;
+}
+
+.tensor-explorer__controls select,
+.tensor-explorer__controls input[type="range"] {
+  min-width: 0;
+  width: 100%;
+}
+
+.tensor-explorer__controls select {
+  grid-column: 1 / -1;
+  min-height: 2.2rem;
+  padding: 0.3rem 0.45rem;
+  color: var(--course-copy);
+  background: var(--course-panel);
+  border: 1px solid var(--course-line);
+  border-radius: 7px;
+  font: inherit;
+}
+
+.tensor-explorer__controls input[type="range"] {
+  accent-color: var(--course-green-strong);
+}
+
+.tensor-explorer__controls output {
+  min-width: 2.7rem;
+  color: var(--course-ink);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-align: right;
+}
+
+.tensor-explorer__controls input:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.tensor-explorer__validation {
+  min-height: 1.2rem;
+  margin: 0.55rem 0;
+  color: var(--course-muted);
+  font-size: 0.68rem;
+}
+
+.tensor-explorer__validation.is-error {
+  color: var(--course-coral);
+  font-weight: 700;
+}
+
+.tensor-explorer__diagram {
+  overflow-x: auto;
+  padding: 0.35rem;
+  background: var(--code-bg);
+  border: 1px solid var(--course-line);
+  border-radius: 11px;
+}
+
+.tensor-explorer__diagram svg {
+  display: block;
+  min-width: 800px;
+  width: 100%;
+  height: auto;
+}
+
+#tensor-arrow path {
+  fill: #8f998f;
+}
+
+.tensor-flow-line {
+  fill: none;
+  stroke: #8f998f;
+  stroke-width: 2;
+  marker-end: url(#tensor-arrow);
+}
+
+.tensor-node rect {
+  fill: #242c3d;
+  stroke: #526071;
+  stroke-width: 1.5;
+}
+
+.tensor-node--input rect,
+.tensor-node--output rect {
+  stroke: var(--course-green);
+}
+
+.tensor-node--query rect {
+  stroke: #7eb6ff;
+}
+
+.tensor-node--new-kv rect,
+.tensor-node--cache rect {
+  stroke: var(--course-coral);
+}
+
+.tensor-node__label {
+  fill: #c8ba98;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tensor-node__shape {
+  fill: #f4f1de;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.tensor-node__hint,
+.tensor-diagram-caption {
+  fill: #aab2bd;
+  font-family: var(--font-sans);
+  font-size: 10px;
+}
+
+.tensor-diagram-caption {
+  font-size: 12px;
+}
+
+.tensor-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  margin-top: 0.8rem;
+  background: var(--course-line);
+  border: 1px solid var(--course-line);
+  border-radius: 10px;
+}
+
+.tensor-metrics section {
+  display: grid;
+  gap: 0.35rem;
+  min-height: 5.7rem;
+  align-content: center;
+  padding: 0.75rem;
+  background: var(--course-soft);
+}
+
+.tensor-metrics span {
+  color: var(--course-muted);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.tensor-metrics strong {
+  color: var(--course-ink);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.4;
+}
+
+.tensor-explorer__fallback {
+  margin-top: 0.8rem;
+  color: var(--course-muted);
+  font-size: 0.7rem;
+}
+
+.tensor-explorer__fallback summary {
+  cursor: pointer;
+  color: var(--course-copy);
+  font-weight: 700;
+}
+
+.tensor-explorer__fallback table {
+  margin-bottom: 0.7rem;
+}
+
 .visually-hidden {
   position: absolute !important;
   width: 1px !important;
@@ -727,9 +1005,15 @@
   }
 
   .course-now,
-  .request-lifecycle-lab__intro {
+  .request-lifecycle-lab__intro,
+  .tensor-explorer__intro {
     align-items: start;
     flex-direction: column;
+  }
+
+  .tensor-explorer__controls,
+  .tensor-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .request-lifecycle-controls {
@@ -744,6 +1028,13 @@
 
   .course-reading > h1 {
     font-size: clamp(2.2rem, 12vw, 3.2rem);
+  }
+}
+
+@media (max-width: 460px) {
+  .tensor-explorer__controls,
+  .tensor-metrics {
+    grid-template-columns: 1fr;
   }
 }
 
