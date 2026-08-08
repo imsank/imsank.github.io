@@ -43,6 +43,23 @@ The Investment page is defined in `investment/index.html`.
 - When no posts match a search, the page displays **No matching posts**.
 - When the site contains no investment posts, the page displays an empty state instead of the list.
 
+## Finance Navigation
+
+The primary navigation uses **Finance** as a dropdown label.
+
+- **Blog** links to the existing `/investment/` page, so published investment-post URLs do not change.
+- **Thesis** links to `/thesis/`.
+- The dropdown uses native `details` and `summary` elements so it works with mouse, keyboard, and touch input.
+
+## Company Thesis Page
+
+The thesis directory is defined in `thesis/index.html` and reads the `theses` collection configured in `_config.yml`.
+
+- Only collection items with `thesis_kind: overview` appear in the directory.
+- Items are grouped by `company` and ordered by `thesis_date`, newest first.
+- Each overview can link to one or more supporting reports in the same collection.
+- Detailed source material can be preserved under `_includes/theses/` and rendered through lightweight collection wrappers.
+
 ## Interested Page
 
 The Interested page is defined in `interested/index.html`.

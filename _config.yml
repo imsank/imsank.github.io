@@ -18,8 +18,12 @@ collections:
     permalink: /interested/:name/
   course_sections:
     output: true
+  theses:
+    output: true
+    permalink: /thesis/:name/
 
 header_pages:
   - index.md
   - interested/index.html
   - investment/index.html
+  - thesis/index.html
