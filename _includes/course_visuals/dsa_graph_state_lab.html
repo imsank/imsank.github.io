@@ -1,0 +1,98 @@
+<section class="dsa-lab" data-dsa-graph-lab aria-labelledby="dsa-lab-title">
+  <header class="dsa-lab__header">
+    <div>
+      <p class="course-component-kicker">Interactive mental model</p>
+      <h2 id="dsa-lab-title">When is a node the complete state?</h2>
+      <p>Step through the frontier and visited set. Then add one override token and watch node-only state lose a valid solution.</p>
+    </div>
+    <span class="dsa-lab__badge" data-dsa-result>Ready</span>
+  </header>
+
+  <div class="dsa-lab__controls" aria-label="Graph simulation controls">
+    <label>
+      <span>Scenario</span>
+      <select data-dsa-control="scenario">
+        <option value="base">Reachability</option>
+        <option value="override">One locked-edge override</option>
+      </select>
+    </label>
+    <label>
+      <span>Frontier</span>
+      <select data-dsa-control="frontier">
+        <option value="stack">Stack · DFS order</option>
+        <option value="queue">Queue · BFS order</option>
+      </select>
+    </label>
+    <label>
+      <span>Visited key</span>
+      <select data-dsa-control="state-key">
+        <option value="node">Node only</option>
+        <option value="expanded">Node + override state</option>
+      </select>
+    </label>
+    <label>
+      <span>Mark visited</span>
+      <select data-dsa-control="timing">
+        <option value="discovery">When discovered</option>
+        <option value="removal">When removed</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="dsa-lab__stage">
+    <div class="dsa-lab__canvas-wrap">
+      <canvas data-dsa-canvas width="760" height="400" aria-hidden="true"></canvas>
+      <p class="dsa-lab__canvas-caption" data-dsa-caption>Undirected links; start at station 0.</p>
+    </div>
+
+    <div class="dsa-lab__state" aria-label="Current algorithm state">
+      <article>
+        <span>Current operation</span>
+        <strong data-dsa-current>Not started</strong>
+      </article>
+      <article>
+        <span>Frontier</span>
+        <code data-dsa-frontier>[]</code>
+      </article>
+      <article>
+        <span>Visited keys</span>
+        <code data-dsa-visited>{}</code>
+      </article>
+      <article>
+        <span>Work</span>
+        <strong data-dsa-work>0 edge checks · 0 duplicates</strong>
+      </article>
+    </div>
+  </div>
+
+  <div class="dsa-lab__transport">
+    <button type="button" data-dsa-action="reset">Reset</button>
+    <button type="button" data-dsa-action="previous" disabled>Previous</button>
+    <button type="button" class="dsa-lab__primary" data-dsa-action="next">Start</button>
+    <button type="button" data-dsa-action="play">Play</button>
+    <span data-dsa-progress>Step 0 of 0</span>
+  </div>
+
+  <div class="dsa-lab__explanation" aria-live="polite" aria-atomic="true">
+    <strong data-dsa-invariant>Visited means discovered and scheduled.</strong>
+    <p data-dsa-explanation>Press Start to discover the source state.</p>
+  </div>
+
+  <details class="dsa-lab__fallback">
+    <summary>Read the static model and controls</summary>
+    <div class="dsa-lab__fallback-grid">
+      <div>
+        <h3>Base reachability</h3>
+        <p>The future from a station depends only on its ID. A node-only visited set safely merges repeated arrivals. Stack and queue orders both find the same reachable component.</p>
+      </div>
+      <div>
+        <h3>Override mutation</h3>
+        <p>Reaching X with the override intact permits a different future from reaching X after spending it. The safe key becomes <code>(node, override_available)</code>.</p>
+      </div>
+      <div>
+        <h3>Visited timing</h3>
+        <p>Marking at discovery schedules each state once. Marking at removal can place converging states in the frontier multiple times.</p>
+      </div>
+    </div>
+  </details>
+</section>

@@ -1,0 +1,42 @@
+{% assign course = site.data.dsa_course %}
+
+<div class="course-sidebar__head">
+  <a class="course-sidebar__home" href="{{ course.home_url | relative_url }}">
+    <span class="course-sidebar__eyebrow">Interactive course</span>
+    <strong>{{ course.title }}</strong>
+  </a>
+  <button class="course-sidebar__close" type="button" aria-label="Close course navigation" data-course-menu-close>×</button>
+</div>
+
+<p class="course-sidebar__subtitle">{{ course.subtitle }}</p>
+
+<nav class="course-chapters" aria-label="Chapters">
+  <ol>
+    {% for chapter in course.chapters %}
+      <li class="course-chapter{% if page.chapter_number == chapter.number %} is-current{% endif %}">
+        <div class="course-chapter__row">
+          <span class="course-chapter__number">{{ chapter.number }}</span>
+          <span class="course-chapter__title">{{ chapter.title }}</span>
+          {% if chapter.status == "coming_soon" %}<span class="course-status">Soon</span>{% endif %}
+        </div>
+        {% if chapter.sections %}
+          <ol class="course-sections">
+            {% for section in chapter.sections %}
+              <li>
+                {% if section.status == "available" %}
+                  <a href="{{ section.url | relative_url }}"{% if page.section_number == section.number %} aria-current="page"{% endif %}>
+                    <span>{{ section.number }}</span><strong>{{ section.title }}</strong>
+                  </a>
+                {% else %}
+                  <span class="course-section--soon">
+                    <span>{{ section.number }}</span><strong>{{ section.title }}</strong><small>Coming soon</small>
+                  </span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ol>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+</nav>

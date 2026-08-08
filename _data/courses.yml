@@ -7,8 +7,9 @@
   meta: "3 sections available · 13-part roadmap"
 
 - number: "02"
-  title: "Software Engineering and DSA"
-  description: "Data structures, algorithms, problem-solving patterns, and practical software-engineering foundations."
-  status: coming_soon
-  status_label: "In development"
-  meta: "Course structure in progress"
+  title: "First-Principles Data Structures and Algorithms"
+  description: "Derivation-first problem solving, algorithm evolution, state and invariant reasoning, and Google-style interview preparation."
+  status: available
+  status_label: "Available"
+  url: "/interview-prep/first-principles-dsa/"
+  meta: "1 section available · 13-chapter roadmap"
