@@ -15,7 +15,22 @@
         <nav class="site-menu" aria-label="Primary navigation">
           <a href="{{ "/" | relative_url }}">Home</a>
           <a href="{{ "/ai/llm-inference-engineering/" | relative_url }}">AI Course</a>
-          <a href="{{ "/investment/" | relative_url }}">Investment</a>
+          <details class="site-menu__dropdown">
+            <summary>
+              Finance
+              <span class="site-menu__chevron" aria-hidden="true">v</span>
+            </summary>
+            <div class="site-menu__dropdown-panel">
+              <a href="{{ "/investment/" | relative_url }}">
+                <span>Blog</span>
+                <small>Investing notes and playbooks</small>
+              </a>
+              <a href="{{ "/thesis/" | relative_url }}">
+                <span>Thesis</span>
+                <small>Company research by date</small>
+              </a>
+            </div>
+          </details>
           <a href="{{ "/interested/" | relative_url }}">Interested</a>
           <button class="theme-toggle" type="button" aria-label="Toggle dark mode" data-theme-toggle>
             <span data-theme-toggle-text>Theme</span>

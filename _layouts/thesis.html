@@ -1,0 +1,90 @@
+---
+layout: default
+---
+
+<article class="post thesis-article">
+  <nav class="thesis-breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ '/thesis/' | relative_url }}">Thesis</a>
+    {% if page.company %}
+      <span aria-hidden="true">/</span>
+      <span>{{ page.company }}</span>
+    {% endif %}
+  </nav>
+
+  <header class="thesis-masthead">
+    <div class="thesis-masthead__mark" aria-hidden="true">
+      <span>{{ page.company | slice: 0 }}</span>
+      <small>Research</small>
+    </div>
+    <div class="thesis-masthead__copy">
+      <p class="eyebrow">{% if page.thesis_kind == "overview" %}Company thesis{% else %}Supporting research file{% endif %}</p>
+      <h1>{{ page.title }}</h1>
+
+      <div class="thesis-meta">
+        {% if page.company %}<span>{{ page.company }}</span>{% endif %}
+        {% if page.thesis_date %}<span>{{ page.thesis_date | date: "%B %-d, %Y" }}</span>{% endif %}
+        {% if page.report_type %}<span>{{ page.report_type }}</span>{% endif %}
+      </div>
+
+      {% if page.description %}
+        <p class="lead">{{ page.description }}</p>
+      {% endif %}
+    </div>
+    <div class="thesis-masthead__stamp" aria-label="Dated research record">
+      <small>Analysis record</small>
+      <strong>{{ page.thesis_date | date: "%Y.%m.%d" }}</strong>
+      <span>{% if page.thesis_kind == "overview" %}Overview{% else %}Evidence file{% endif %}</span>
+    </div>
+  </header>
+
+  {% if page.thesis_kind == "overview" %}
+    <div class="thesis-signal-strip" aria-label="Thesis signals">
+      <div class="thesis-signal thesis-signal--positive">
+        <small>Business direction</small>
+        <strong>{{ page.business_signal | default: "Under review" }}</strong>
+      </div>
+      <div class="thesis-signal thesis-signal--watch">
+        <small>Cash quality</small>
+        <strong>{{ page.cash_signal | default: "Under review" }}</strong>
+      </div>
+      <div class="thesis-signal thesis-signal--demanding">
+        <small>Market expectation</small>
+        <strong>{{ page.expectation_signal | default: "Under review" }}</strong>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="thesis-reader-tools">
+    <nav aria-label="Thesis reading shortcuts">
+      {% if page.thesis_kind == "overview" %}
+        <a href="#retail-view">Simple view</a>
+        <a href="#scenario-explorer">Scenarios</a>
+        <a href="#read-the-supporting-research">Full research</a>
+      {% else %}
+        <a href="{{ '/thesis/fiem-industries/2026-08-08/' | relative_url }}">Retail summary</a>
+      {% endif %}
+    </nav>
+
+    <details class="thesis-glossary">
+      <summary>
+        <span aria-hidden="true">?</span>
+        Jargon decoder
+        <small>6 terms</small>
+      </summary>
+      <div class="thesis-glossary__panel">
+        <dl>
+          <div><dt>PAT</dt><dd>Profit left after all expenses and tax.</dd></div>
+          <div><dt>EBITDA</dt><dd>Operating profit before interest, tax and depreciation.</dd></div>
+          <div><dt>ROCE</dt><dd>How efficiently the business earns from the capital it uses.</dd></div>
+          <div><dt>Receivables</dt><dd>Sales recorded but cash not yet collected from customers.</dd></div>
+          <div><dt>P/E</dt><dd>The price investors pay for each rupee of annual profit.</dd></div>
+          <div><dt>RFQ</dt><dd>A customer request for a quote; it is not yet a confirmed order.</dd></div>
+        </dl>
+      </div>
+    </details>
+  </div>
+
+  <div class="entry">
+    {{ content }}
+  </div>
+</article>

@@ -52,6 +52,7 @@ The generated site is written to `_site/`.
 |-- _config.yml          # Jekyll configuration, routes, and site metadata
 |-- _includes/           # Reusable page fragments
 |-- _interests/          # Content in the custom `interests` collection
+|-- _theses/             # Company thesis overviews and supporting report pages
 |-- _layouts/            # Default, post, and interest page templates
 |-- _posts/              # Date-based investment posts
 |-- assets/              # Images and other static assets
@@ -59,6 +60,7 @@ The generated site is written to `_site/`.
 |-- index.md             # Home page
 |-- interested/          # Interests listing page
 |-- investment/          # Investment listing and client-side search
+|-- thesis/              # Company thesis directory grouped by company and date
 |-- Gemfile              # Ruby dependencies
 `-- .github/workflows/   # GitHub Pages build and deployment workflow
 ```

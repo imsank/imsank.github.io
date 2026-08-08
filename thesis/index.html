@@ -1,0 +1,88 @@
+---
+layout: default
+title: Company Thesis
+---
+
+{% assign thesis_overviews = site.theses | where: "thesis_kind", "overview" | sort: "thesis_date" | reverse %}
+{% assign thesis_companies = thesis_overviews | group_by: "company" | sort: "name" %}
+
+<section class="thesis-hero">
+  <div class="thesis-hero__copy">
+    <p class="eyebrow">Finance / Research archive</p>
+    <h1>Company Thesis</h1>
+    <p class="lead">A living evidence ledger for businesses I study. Each dated thesis connects operating reality, future earnings, and the expectations already compressed into the stock price.</p>
+
+    <div class="thesis-hero__stats" aria-label="Research archive summary">
+      <div><strong>{{ thesis_companies.size }}</strong><span>Companies</span></div>
+      <div><strong>{{ thesis_overviews.size }}</strong><span>Dated theses</span></div>
+      <div><strong>3</strong><span>Research lenses</span></div>
+    </div>
+  </div>
+
+  <div class="thesis-research-map" aria-label="Thesis research method">
+    <div class="thesis-research-map__label">Research system</div>
+    <div class="thesis-research-map__node thesis-research-map__node--one">
+      <span>01</span>
+      <strong>Business</strong>
+      <small>What is real?</small>
+    </div>
+    <i aria-hidden="true">&rarr;</i>
+    <div class="thesis-research-map__node thesis-research-map__node--two">
+      <span>02</span>
+      <strong>Earnings</strong>
+      <small>What can compound?</small>
+    </div>
+    <i aria-hidden="true">&rarr;</i>
+    <div class="thesis-research-map__node thesis-research-map__node--three">
+      <span>03</span>
+      <strong>Expectations</strong>
+      <small>What is priced in?</small>
+    </div>
+  </div>
+</section>
+
+<div class="thesis-directory-heading">
+  <div>
+    <p class="eyebrow">Research ledger</p>
+    <h2>Browse by company</h2>
+  </div>
+  <p>Every entry is time-stamped so the original assumptions remain visible as new evidence arrives.</p>
+</div>
+
+{% if thesis_companies.size > 0 %}
+  <div class="thesis-directory">
+    {% for company in thesis_companies %}
+      <section class="thesis-company">
+        <div class="thesis-company__heading">
+          <div class="thesis-company__monogram" aria-hidden="true">{{ company.name | slice: 0 }}</div>
+          <p class="post-meta">Company</p>
+          <h2>{{ company.name }}</h2>
+          <span class="thesis-company__count">{{ company.items.size }} research record{% if company.items.size != 1 %}s{% endif %}</span>
+        </div>
+
+        <ul class="thesis-list">
+          {% for thesis in company.items %}
+            <li>
+              <a href="{{ thesis.url | relative_url }}">
+                <span class="thesis-list__date">
+                  <small>Analysis date</small>
+                  <strong>{{ thesis.thesis_date | date: "%d %b %Y" }}</strong>
+                </span>
+                <span class="thesis-list__title">Thesis_{{ thesis.thesis_date | date: "%Y-%m-%d" }}</span>
+                {% if thesis.description %}
+                  <span class="thesis-list__description">{{ thesis.description }}</span>
+                {% endif %}
+                <span class="thesis-list__action">Open dossier <b aria-hidden="true">&rarr;</b></span>
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="empty-state">
+    <h2>No company theses yet</h2>
+    <p>Company research will appear here when a dated thesis is published.</p>
+  </div>
+{% endif %}
