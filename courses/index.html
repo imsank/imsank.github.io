@@ -1,0 +1,55 @@
+---
+layout: default
+title: "Courses"
+description: "Structured learning paths in AI, machine learning systems, software engineering, and data structures and algorithms."
+course_directory: true
+permalink: /courses/
+---
+
+<section class="course-catalog" aria-labelledby="course-catalog-title">
+  <header class="course-catalog__header">
+    <p class="course-component-kicker">Learning paths</p>
+    <h1 id="course-catalog-title">Courses</h1>
+    <p>
+      Deep, first-principles courses built incrementally from written lessons,
+      worked examples, production evidence, and interactive explanations.
+    </p>
+  </header>
+
+  <div class="course-catalog__list" aria-label="Course catalog">
+    {% for course_item in site.data.courses %}
+      {% if course_item.status == "available" %}
+        <a class="course-catalog-row" href="{{ course_item.url | relative_url }}">
+          <span class="course-catalog-row__number" aria-hidden="true">{{ course_item.number }}</span>
+          <span class="course-catalog-row__copy">
+            <strong>{{ course_item.title }}</strong>
+            <span>{{ course_item.description }}</span>
+            <small>{{ course_item.meta }}</small>
+          </span>
+          <span class="course-catalog-row__action">
+            <small>{{ course_item.status_label }}</small>
+            <strong>Open course <span aria-hidden="true">→</span></strong>
+          </span>
+        </a>
+      {% else %}
+        <article class="course-catalog-row course-catalog-row--soon">
+          <span class="course-catalog-row__number" aria-hidden="true">{{ course_item.number }}</span>
+          <span class="course-catalog-row__copy">
+            <strong>{{ course_item.title }}</strong>
+            <span>{{ course_item.description }}</span>
+            <small>{{ course_item.meta }}</small>
+          </span>
+          <span class="course-catalog-row__action">
+            <small>{{ course_item.status_label }}</small>
+            <strong>Coming soon</strong>
+          </span>
+        </article>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <p class="course-catalog__note">
+    Each course grows section by section. Published lessons remain available
+    while the next material is being developed.
+  </p>
+</section>

@@ -14,7 +14,7 @@
 
         <nav class="site-menu" aria-label="Primary navigation">
           <a href="{{ "/" | relative_url }}">Home</a>
-          <a href="{{ "/ai/llm-inference-engineering/" | relative_url }}">AI Course</a>
+          <a href="{{ "/courses/" | relative_url }}">Courses</a>
           <details class="site-menu__dropdown">
             <summary>
               Finance
@@ -40,7 +40,7 @@
     </header>
 
     <main id="main-content" class="page-content">
-      <div class="site-shell content-shell{% if page.course %} content-shell--course{% endif %}">
+      <div class="site-shell content-shell{% if page.course or page.course_directory %} content-shell--course{% endif %}">
         {{ content }}
       </div>
     </main>

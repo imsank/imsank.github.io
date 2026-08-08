@@ -1,0 +1,14 @@
+- number: "01"
+  title: "LLM Inference Engineering for ML Engineers"
+  description: "First-principles performance, memory, scheduling, distributed inference, production serving, and Google L5 interview reasoning."
+  status: available
+  status_label: "Available"
+  url: "/ai/llm-inference-engineering/"
+  meta: "3 sections available · 13-part roadmap"
+
+- number: "02"
+  title: "Software Engineering and DSA"
+  description: "Data structures, algorithms, problem-solving patterns, and practical software-engineering foundations."
+  status: coming_soon
+  status_label: "In development"
+  meta: "Course structure in progress"

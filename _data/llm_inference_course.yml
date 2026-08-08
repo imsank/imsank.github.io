@@ -16,7 +16,18 @@ chapters:
         url: "/ai/llm-inference-engineering/foundation/transformer-inference-refresher/"
   - number: 1
     title: "Performance Fundamentals"
-    status: coming_soon
+    status: available
+    sections:
+      - number: "1.1"
+        title: "Latency vs Throughput"
+        status: available
+        url: "/ai/llm-inference-engineering/performance-fundamentals/latency-vs-throughput/"
+      - number: "1.2"
+        title: "GPU Architecture for ML Engineers"
+        status: coming_soon
+      - number: "1.3"
+        title: "Memory Hierarchy and the Roofline Model"
+        status: coming_soon
   - number: 2
     title: "KV Cache"
     status: coming_soon
