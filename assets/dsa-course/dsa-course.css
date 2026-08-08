@@ -67,8 +67,7 @@
   font-family: "Roboto Mono", monospace;
 }
 
-.course-chapter.is-current .course-chapter__number,
-.course-sections a[aria-current="page"] span {
+.course-chapter.is-current .course-chapter__number {
   background: var(--dsa-accent);
   color: #fff;
 }

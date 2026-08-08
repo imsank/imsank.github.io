@@ -344,7 +344,7 @@ Notice the reasoning order:
 4. Neighbor enumeration is the dominant operation, so use an adjacency list.
 5. Either stack or queue order is valid; choose a stack for iterative DFS.
 
-<details>
+<details markdown="1">
 <summary>Show the complete Python implementation</summary>
 
 ```python
@@ -380,7 +380,7 @@ def propagation_reach(n: int, links: list[list[int]], start: int) -> int:
 
 </details>
 
-<details>
+<details markdown="1">
 <summary>Show executable boundary tests</summary>
 
 ```python
