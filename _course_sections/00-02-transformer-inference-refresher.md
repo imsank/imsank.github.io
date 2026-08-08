@@ -10,6 +10,7 @@ section_order: 2
 previous_url: /ai/llm-inference-engineering/foundation/life-of-an-llm-request/
 previous_title: "Life of an LLM Request"
 next_title: "Latency vs Throughput"
+next_url: /ai/llm-inference-engineering/performance-fundamentals/latency-vs-throughput/
 permalink: /ai/llm-inference-engineering/foundation/transformer-inference-refresher/
 ---
 

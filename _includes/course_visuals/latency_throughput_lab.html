@@ -1,0 +1,157 @@
+<section class="performance-lab" data-performance-lab aria-labelledby="performance-lab-title">
+  <header class="performance-lab__intro">
+    <div>
+      <p class="course-component-kicker">Interactive performance lab</p>
+      <h2 id="performance-lab-title">Find the useful operating point</h2>
+      <p>
+        Change the workload and load. Watch aggregate throughput rise while
+        user latency bends upward near saturation. The model is illustrative;
+        benchmark your real model, engine, and hardware for decisions.
+      </p>
+    </div>
+    <fieldset class="performance-mode" aria-label="Workload objective">
+      <legend>Optimize for</legend>
+      <label>
+        <input type="radio" name="performance-mode" value="chat" checked data-performance-mode>
+        <span>Interactive chat</span>
+      </label>
+      <label>
+        <input type="radio" name="performance-mode" value="offline" data-performance-mode>
+        <span>Offline batch</span>
+      </label>
+    </fieldset>
+  </header>
+
+  <div class="performance-lab__controls" aria-label="Simulation inputs">
+    <label class="performance-control">
+      <span>Concurrency <output data-performance-output="concurrency">24</output></span>
+      <input type="range" min="1" max="128" step="1" value="24" data-performance-input="concurrency">
+      <small>Requests allowed in flight</small>
+    </label>
+    <label class="performance-control">
+      <span>Arrival rate <output data-performance-output="arrival">12 req/s</output></span>
+      <input type="range" min="1" max="64" step="1" value="12" data-performance-input="arrival">
+      <small>Offered load from clients</small>
+    </label>
+    <label class="performance-control">
+      <span>Prompt <output data-performance-output="prompt">1,024 tok</output></span>
+      <input type="range" min="128" max="4096" step="128" value="1024" data-performance-input="prompt">
+      <small>Input sequence length</small>
+    </label>
+    <label class="performance-control">
+      <span>Answer <output data-performance-output="output">128 tok</output></span>
+      <input type="range" min="32" max="512" step="16" value="128" data-performance-input="output">
+      <small>Generated sequence length</small>
+    </label>
+  </div>
+
+  <div class="performance-metrics" aria-label="Modeled performance metrics">
+    <article>
+      <span>TTFT</span>
+      <strong data-performance-metric="ttft">—</strong>
+      <small data-performance-slo="ttft">Chat target ≤ 1,000 ms</small>
+    </article>
+    <article>
+      <span>TPOT</span>
+      <strong data-performance-metric="tpot">—</strong>
+      <small data-performance-slo="tpot">Chat target ≤ 50 ms/tok</small>
+    </article>
+    <article>
+      <span>E2E</span>
+      <strong data-performance-metric="e2e">—</strong>
+      <small>TTFT + (N − 1) × TPOT</small>
+    </article>
+    <article>
+      <span>Output throughput</span>
+      <strong data-performance-metric="throughput">—</strong>
+      <small>Aggregate, not per-user speed</small>
+    </article>
+    <article class="performance-metric--goodput">
+      <span>Goodput</span>
+      <strong data-performance-metric="goodput">—</strong>
+      <small data-performance-slo="goodput">Requests meeting both chat SLOs</small>
+    </article>
+  </div>
+
+  <div class="performance-lab__workspace">
+    <section class="performance-timeline-card" aria-labelledby="performance-timeline-title">
+      <div class="performance-card-head">
+        <div>
+          <p class="course-component-kicker">One client request</p>
+          <h3 id="performance-timeline-title">Where the user waits</h3>
+        </div>
+        <span class="performance-health" data-performance-health>Within chat SLO</span>
+      </div>
+
+      <div class="performance-timeline" aria-label="Modeled request latency timeline">
+        <div class="performance-timeline__segment performance-timeline__segment--network" data-performance-segment="network">
+          <span>Network/API</span><strong data-performance-time="network">—</strong>
+        </div>
+        <div class="performance-timeline__segment performance-timeline__segment--queue" data-performance-segment="queue">
+          <span>Queue</span><strong data-performance-time="queue">—</strong>
+        </div>
+        <div class="performance-timeline__segment performance-timeline__segment--prefill" data-performance-segment="prefill">
+          <span>Prefill</span><strong data-performance-time="prefill">—</strong>
+        </div>
+        <div class="performance-timeline__segment performance-timeline__segment--decode" data-performance-segment="decode">
+          <span>Decode</span><strong data-performance-time="decode">—</strong>
+        </div>
+      </div>
+
+      <div class="performance-boundaries" aria-hidden="true">
+        <span>request sent</span>
+        <span data-performance-boundary="first">first token</span>
+        <span>final token</span>
+      </div>
+      <p class="performance-explanation" data-performance-explanation></p>
+    </section>
+
+    <section class="performance-chart-card" aria-labelledby="performance-chart-title">
+      <div class="performance-card-head">
+        <div>
+          <p class="course-component-kicker">Load sweep</p>
+          <h3 id="performance-chart-title">The saturation knee</h3>
+        </div>
+        <div class="performance-chart-legend" aria-hidden="true">
+          <span><i class="is-throughput"></i> Throughput</span>
+          <span><i class="is-latency"></i> TTFT</span>
+        </div>
+      </div>
+
+      <svg class="performance-chart" viewBox="0 0 640 300" role="img" aria-labelledby="performance-chart-svg-title performance-chart-svg-desc">
+        <title id="performance-chart-svg-title">Latency and throughput across offered load</title>
+        <desc id="performance-chart-svg-desc">Throughput rises and then plateaus while time to first token rises sharply near saturation.</desc>
+        <g class="performance-chart__grid" aria-hidden="true">
+          <line x1="62" y1="32" x2="62" y2="252"></line>
+          <line x1="62" y1="252" x2="604" y2="252"></line>
+          <line x1="62" y1="197" x2="604" y2="197"></line>
+          <line x1="62" y1="142" x2="604" y2="142"></line>
+          <line x1="62" y1="87" x2="604" y2="87"></line>
+          <line x1="62" y1="32" x2="604" y2="32"></line>
+        </g>
+        <text class="performance-chart__axis-label" x="333" y="290" text-anchor="middle">Offered load (requests/s)</text>
+        <text class="performance-chart__axis-label" transform="translate(17 142) rotate(-90)" text-anchor="middle">Normalized metric</text>
+        <path class="performance-chart__line performance-chart__line--throughput" data-performance-curve="throughput"></path>
+        <path class="performance-chart__line performance-chart__line--latency" data-performance-curve="latency"></path>
+        <line class="performance-chart__knee" data-performance-knee x1="0" y1="32" x2="0" y2="252"></line>
+        <text class="performance-chart__knee-label" data-performance-knee-label x="0" y="25" text-anchor="middle">knee</text>
+        <circle class="performance-chart__point performance-chart__point--throughput" data-performance-point="throughput" r="7"></circle>
+        <circle class="performance-chart__point performance-chart__point--latency" data-performance-point="latency" r="7"></circle>
+      </svg>
+      <p class="performance-chart-summary" data-performance-chart-summary></p>
+    </section>
+  </div>
+
+  <details class="performance-lab__assumptions">
+    <summary>What this teaching model assumes</summary>
+    <p>
+      It uses a smooth synthetic capacity curve: more concurrency first improves
+      batching, prompt length adds prefill work, and queueing accelerates near
+      estimated capacity. It does not model a particular GPU, engine, scheduler,
+      network, or token-length distribution. Use it to form hypotheses—not to
+      size production.
+    </p>
+  </details>
+
+  <p class="visually-hidden" aria-live="polite" data-performance-live></p>
+</section>

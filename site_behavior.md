@@ -77,6 +77,18 @@ The default layout provides light and dark themes.
 - Without a saved choice, the site follows the browser's `prefers-color-scheme` setting.
 - The navigation toggle switches themes and saves the selection for later visits.
 
+## Courses Navigation
+
+The primary navigation uses **Courses** as the entry point for every structured
+course on the site.
+
+- **Courses** links to `/courses/`, the shared course directory.
+- The directory reads `_data/courses.yml` so a course can be added without
+  redesigning the page.
+- Available courses link to their existing course home pages.
+- Courses still being developed remain visible with a non-clickable status.
+- Individual course URLs and internal lesson navigation remain unchanged.
+
 ## Deployment
 
 The GitHub Actions workflow in `.github/workflows/deploy.yml` builds and deploys the site when changes are pushed to `master`. It can also be run manually through `workflow_dispatch`.

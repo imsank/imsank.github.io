@@ -307,4 +307,246 @@
 
     renderTensorExplorer();
   }
+
+  var performanceRoot = document.querySelector("[data-performance-lab]");
+  if (performanceRoot) {
+    var performanceInputs = {};
+    Array.prototype.forEach.call(performanceRoot.querySelectorAll("[data-performance-input]"), function (input) {
+      performanceInputs[input.getAttribute("data-performance-input")] = input;
+    });
+
+    var performanceModes = Array.prototype.slice.call(performanceRoot.querySelectorAll("[data-performance-mode]"));
+    var performanceCurves = {
+      throughput: performanceRoot.querySelector('[data-performance-curve="throughput"]'),
+      latency: performanceRoot.querySelector('[data-performance-curve="latency"]')
+    };
+    var performancePoints = {
+      throughput: performanceRoot.querySelector('[data-performance-point="throughput"]'),
+      latency: performanceRoot.querySelector('[data-performance-point="latency"]')
+    };
+    var performanceHealth = performanceRoot.querySelector("[data-performance-health]");
+    var performanceLive = performanceRoot.querySelector("[data-performance-live]");
+
+    function performanceClamp(minimum, maximum, value) {
+      return Math.max(minimum, Math.min(maximum, value));
+    }
+
+    function performanceValue(name) {
+      return Number(performanceInputs[name].value);
+    }
+
+    function performanceMode() {
+      var selected = performanceModes.filter(function (input) { return input.checked; })[0];
+      return selected ? selected.value : "chat";
+    }
+
+    function performanceText(selector, value) {
+      var node = performanceRoot.querySelector(selector);
+      if (node) node.textContent = value;
+    }
+
+    function performanceMilliseconds(value) {
+      return value >= 1000 ? (value / 1000).toFixed(value >= 10000 ? 1 : 2) + " s" : Math.round(value) + " ms";
+    }
+
+    function performanceNumber(value, digits) {
+      return new Intl.NumberFormat("en-US", {
+        maximumFractionDigits: digits == null ? 0 : digits
+      }).format(value);
+    }
+
+    function performanceModel(rate) {
+      var concurrency = performanceValue("concurrency");
+      var prompt = performanceValue("prompt");
+      var output = performanceValue("output");
+      var batchFactor = 0.5 + 0.5 * (1 - Math.exp(-concurrency / 18));
+      var shapeFactor = Math.pow(1024 / prompt, 0.2) * Math.pow(128 / output, 0.08);
+      var capacity = performanceClamp(7, 58, 44 * batchFactor * shapeFactor);
+      var utilization = rate / capacity;
+      var network = 55;
+      var prefill = 70 + prompt * 0.16;
+      var queue = utilization <= 0.55
+        ? 12 * utilization
+        : 8 + 240 * Math.pow((utilization - 0.55) / 0.45, 2);
+
+      if (utilization > 1) {
+        queue += 1200 * Math.pow(utilization - 1, 1.8);
+      }
+
+      var contextPenalty = 1.5 * Math.log(prompt / 128) / Math.log(2);
+      var tpot = 15 + contextPenalty
+        + 8 * Math.max(0, utilization - 0.3)
+        + 40 * Math.pow(Math.max(0, utilization - 0.75), 1.6);
+      var ttft = network + prefill + queue;
+      var decode = (output - 1) * tpot;
+      var e2e = ttft + decode;
+      var degradation = utilization > 1 ? Math.max(0.82, 1 - 0.04 * (utilization - 1)) : 1;
+      var completedRate = Math.min(rate, capacity * degradation);
+      var outputThroughput = completedRate * output;
+      var mode = performanceMode();
+      var attainment;
+
+      if (mode === "chat") {
+        var ttftAttainment = ttft <= 1000 ? 1 : performanceClamp(0.05, 1, 1000 / ttft);
+        var tpotAttainment = tpot <= 50 ? 1 : performanceClamp(0.05, 1, 50 / tpot);
+        attainment = ttftAttainment * tpotAttainment;
+      } else {
+        attainment = e2e <= 30000 ? 1 : performanceClamp(0.05, 1, 30000 / e2e);
+      }
+
+      return {
+        rate: rate,
+        capacity: capacity,
+        utilization: utilization,
+        network: network,
+        queue: queue,
+        prefill: prefill,
+        tpot: tpot,
+        ttft: ttft,
+        decode: decode,
+        e2e: e2e,
+        completedRate: completedRate,
+        outputThroughput: outputThroughput,
+        goodput: completedRate * attainment,
+        withinSlo: attainment === 1
+      };
+    }
+
+    function performancePath(points) {
+      return points.map(function (point, index) {
+        return (index === 0 ? "M" : "L") + point[0].toFixed(1) + " " + point[1].toFixed(1);
+      }).join(" ");
+    }
+
+    function performancePosition(rate, metric, maxThroughput, maxLatency) {
+      var left = 62;
+      var top = 32;
+      var width = 542;
+      var height = 220;
+      var x = left + (rate - 1) / 63 * width;
+      var normalized = metric.outputThroughput === undefined
+        ? Math.log1p(metric.ttft) / Math.log1p(maxLatency)
+        : metric.outputThroughput / maxThroughput;
+      var y = top + height - performanceClamp(0, 1, normalized) * height;
+      return [x, y];
+    }
+
+    function renderPerformanceChart(current) {
+      var samples = [];
+      var index;
+      for (index = 0; index < 25; index += 1) {
+        var rate = 1 + index * 63 / 24;
+        samples.push(performanceModel(rate));
+      }
+
+      var maxThroughput = Math.max.apply(null, samples.map(function (sample) { return sample.outputThroughput; })) * 1.05;
+      var maxLatency = Math.max.apply(null, samples.map(function (sample) { return sample.ttft; })) * 1.05;
+      var throughputPoints = samples.map(function (sample) {
+        return performancePosition(sample.rate, { outputThroughput: sample.outputThroughput }, maxThroughput, maxLatency);
+      });
+      var latencyPoints = samples.map(function (sample) {
+        return performancePosition(sample.rate, { ttft: sample.ttft }, maxThroughput, maxLatency);
+      });
+
+      performanceCurves.throughput.setAttribute("d", performancePath(throughputPoints));
+      performanceCurves.latency.setAttribute("d", performancePath(latencyPoints));
+
+      var currentRate = performanceClamp(1, 64, current.rate);
+      var throughputPoint = performancePosition(currentRate, { outputThroughput: current.outputThroughput }, maxThroughput, maxLatency);
+      var latencyPoint = performancePosition(currentRate, { ttft: current.ttft }, maxThroughput, maxLatency);
+
+      performancePoints.throughput.setAttribute("cx", throughputPoint[0]);
+      performancePoints.throughput.setAttribute("cy", throughputPoint[1]);
+      performancePoints.latency.setAttribute("cx", latencyPoint[0]);
+      performancePoints.latency.setAttribute("cy", latencyPoint[1]);
+
+      var kneeRate = performanceClamp(1, 64, current.capacity * 0.82);
+      var kneeX = 62 + (kneeRate - 1) / 63 * 542;
+      var knee = performanceRoot.querySelector("[data-performance-knee]");
+      var kneeLabel = performanceRoot.querySelector("[data-performance-knee-label]");
+      knee.setAttribute("x1", kneeX);
+      knee.setAttribute("x2", kneeX);
+      kneeLabel.setAttribute("x", kneeX);
+
+      var relationship = current.utilization < 0.7
+        ? "There is headroom: added load still converts mostly into completed work."
+        : current.utilization < 1
+          ? "You are approaching the knee: throughput gains are shrinking while queueing accelerates."
+          : "Offered load exceeds modeled capacity: the queue grows while completed throughput is capped.";
+      performanceText("[data-performance-chart-summary]", relationship + " Estimated knee: " + performanceNumber(kneeRate, 1) + " req/s.");
+    }
+
+    function renderPerformanceLab() {
+      var concurrency = performanceValue("concurrency");
+      var arrival = performanceValue("arrival");
+      var prompt = performanceValue("prompt");
+      var output = performanceValue("output");
+      var mode = performanceMode();
+      var metric = performanceModel(arrival);
+
+      performanceText('[data-performance-output="concurrency"]', String(concurrency));
+      performanceText('[data-performance-output="arrival"]', arrival + " req/s");
+      performanceText('[data-performance-output="prompt"]', performanceNumber(prompt) + " tok");
+      performanceText('[data-performance-output="output"]', performanceNumber(output) + " tok");
+      performanceText('[data-performance-metric="ttft"]', performanceMilliseconds(metric.ttft));
+      performanceText('[data-performance-metric="tpot"]', performanceMilliseconds(metric.tpot) + "/tok");
+      performanceText('[data-performance-metric="e2e"]', performanceMilliseconds(metric.e2e));
+      performanceText('[data-performance-metric="throughput"]', performanceNumber(metric.outputThroughput) + " tok/s");
+      performanceText('[data-performance-metric="goodput"]', performanceNumber(metric.goodput, 1) + " req/s");
+
+      performanceText('[data-performance-time="network"]', performanceMilliseconds(metric.network));
+      performanceText('[data-performance-time="queue"]', performanceMilliseconds(metric.queue));
+      performanceText('[data-performance-time="prefill"]', performanceMilliseconds(metric.prefill));
+      performanceText('[data-performance-time="decode"]', performanceMilliseconds(metric.decode));
+      performanceText('[data-performance-boundary="first"]', "first token · " + performanceMilliseconds(metric.ttft));
+
+      var timelineScales = {
+        network: Math.sqrt(metric.network),
+        queue: Math.sqrt(Math.max(5, metric.queue)),
+        prefill: Math.sqrt(metric.prefill),
+        decode: Math.sqrt(metric.decode)
+      };
+      Object.keys(timelineScales).forEach(function (name) {
+        var segment = performanceRoot.querySelector('[data-performance-segment="' + name + '"]');
+        segment.style.flexGrow = String(timelineScales[name]);
+      });
+
+      if (mode === "chat") {
+        performanceText('[data-performance-slo="ttft"]', "Chat target ≤ 1,000 ms");
+        performanceText('[data-performance-slo="tpot"]', "Chat target ≤ 50 ms/tok");
+        performanceText('[data-performance-slo="goodput"]', "Requests meeting both chat SLOs");
+        performanceHealth.textContent = metric.withinSlo ? "Within chat SLO" : "Outside chat SLO";
+      } else {
+        performanceText('[data-performance-slo="ttft"]', "Observed, not the batch objective");
+        performanceText('[data-performance-slo="tpot"]', "Observed, not the batch objective");
+        performanceText('[data-performance-slo="goodput"]', "Requests completing within 30 s");
+        performanceHealth.textContent = metric.withinSlo ? "Within batch deadline" : "Outside batch deadline";
+      }
+      performanceHealth.classList.toggle("is-overloaded", !metric.withinSlo || metric.utilization >= 1);
+
+      var queueShare = metric.queue / metric.ttft * 100;
+      var explanation = queueShare > 35
+        ? "Queueing now dominates startup. More offered work is waiting rather than becoming useful throughput."
+        : prompt >= 3072
+          ? "Prefill dominates startup because this is a long-prompt workload. Compare TTFT only against a matching prompt distribution."
+          : "Startup is controlled; decode duration now depends mainly on answer length and token cadence.";
+      performanceText("[data-performance-explanation]", explanation);
+
+      renderPerformanceChart(metric);
+      performanceLive.textContent = "Modeled TTFT " + performanceMilliseconds(metric.ttft)
+        + ", TPOT " + performanceMilliseconds(metric.tpot) + " per token, end-to-end "
+        + performanceMilliseconds(metric.e2e) + ", and goodput " + performanceNumber(metric.goodput, 1)
+        + " requests per second.";
+    }
+
+    Object.keys(performanceInputs).forEach(function (name) {
+      performanceInputs[name].addEventListener("input", renderPerformanceLab);
+      performanceInputs[name].addEventListener("change", renderPerformanceLab);
+    });
+    performanceModes.forEach(function (input) {
+      input.addEventListener("change", renderPerformanceLab);
+    });
+
+    renderPerformanceLab();
+  }
 })();
