@@ -97,6 +97,54 @@
   margin-left: 1rem;
 }
 
+/* Rouge emits semantic token classes; this palette gives Python blocks the
+   visual hierarchy of a modern IDE without adding a client-side dependency. */
+.course-reading .highlight { color: #d4d4d4; }
+.course-reading .highlight .c,
+.course-reading .highlight .c1,
+.course-reading .highlight .cm,
+.course-reading .highlight .cp,
+.course-reading .highlight .cs { color: #9fca8c; font-style: italic; }
+.course-reading .highlight .k,
+.course-reading .highlight .kc,
+.course-reading .highlight .kd,
+.course-reading .highlight .kn,
+.course-reading .highlight .kp,
+.course-reading .highlight .kr,
+.course-reading .highlight .kt,
+.course-reading .highlight .ow { color: #c792ea; }
+.course-reading .highlight .nf,
+.course-reading .highlight .fm,
+.course-reading .highlight .nd { color: #f1e38b; }
+.course-reading .highlight .nb,
+.course-reading .highlight .bp,
+.course-reading .highlight .nc { color: #67d4c4; }
+.course-reading .highlight .s,
+.course-reading .highlight .s1,
+.course-reading .highlight .s2,
+.course-reading .highlight .sa,
+.course-reading .highlight .sb,
+.course-reading .highlight .sc,
+.course-reading .highlight .sd,
+.course-reading .highlight .se,
+.course-reading .highlight .sh,
+.course-reading .highlight .si,
+.course-reading .highlight .sx,
+.course-reading .highlight .sr,
+.course-reading .highlight .ss { color: #e6a57e; }
+.course-reading .highlight .m,
+.course-reading .highlight .mb,
+.course-reading .highlight .mf,
+.course-reading .highlight .mh,
+.course-reading .highlight .mi,
+.course-reading .highlight .mo { color: #b8d7a3; }
+.course-reading .highlight .na,
+.course-reading .highlight .nv,
+.course-reading .highlight .vc,
+.course-reading .highlight .vg,
+.course-reading .highlight .vi { color: #8ed5ff; }
+.course-reading .highlight .err { color: #ff7b87; }
+
 .course-reading .course-callout {
   position: relative;
   padding: 1rem 1.1rem 1rem 3rem;
