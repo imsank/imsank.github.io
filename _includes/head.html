@@ -19,6 +19,9 @@
   {% if page.course or page.course_directory %}
     <link rel="stylesheet" href="{{ "/assets/course/course.css" | relative_url }}">
   {% endif %}
+  {% if page.dsa_course %}
+    <link rel="stylesheet" href="{{ "/assets/dsa-course/dsa-course.css" | relative_url }}">
+  {% endif %}
   <link rel="canonical" href="{{ page.url | replace: "index.html", "" | absolute_url }}">
   {% feed_meta %}
 </head>

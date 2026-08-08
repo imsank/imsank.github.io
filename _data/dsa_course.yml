@@ -1,0 +1,63 @@
+title: "First-Principles Data Structures and Algorithms"
+subtitle: "Derivation, invariants, correctness, and senior interview reasoning"
+home_url: "/interview-prep/first-principles-dsa/"
+chapters:
+  - number: 0
+    title: "Reasoning Foundations"
+    status: coming_soon
+  - number: 1
+    title: "Hashing and Prefix State"
+    status: coming_soon
+  - number: 2
+    title: "Two Pointers"
+    status: coming_soon
+  - number: 3
+    title: "Sliding Windows"
+    status: coming_soon
+  - number: 4
+    title: "Stacks, Queues, Heaps, and Intervals"
+    status: coming_soon
+  - number: 5
+    title: "Binary Search"
+    status: coming_soon
+  - number: 6
+    title: "Trees"
+    status: coming_soon
+  - number: 7
+    title: "Graph and State-Space Search"
+    status: available
+    sections:
+      - number: "7.1"
+        title: "Graph Models, State, and Visited Sets"
+        status: available
+        url: "/interview-prep/first-principles-dsa/graph-search/graph-models-state-and-visited-sets/"
+      - number: "7.2"
+        title: "DFS and BFS for Reachability"
+        status: coming_soon
+      - number: "7.3"
+        title: "BFS for Unweighted Shortest Paths"
+        status: coming_soon
+      - number: "7.4"
+        title: "Multi-Source BFS"
+        status: coming_soon
+      - number: "7.5"
+        title: "Cycles and Bipartite Structure"
+        status: coming_soon
+      - number: "7.6"
+        title: "Expanded-State Search"
+        status: coming_soon
+  - number: 8
+    title: "Graph Structure and Weighted Paths"
+    status: coming_soon
+  - number: 9
+    title: "Backtracking"
+    status: coming_soon
+  - number: 10
+    title: "Dynamic Programming"
+    status: coming_soon
+  - number: 11
+    title: "Greedy Reasoning"
+    status: coming_soon
+  - number: 12
+    title: "Advanced Patterns and Interview Integration"
+    status: coming_soon

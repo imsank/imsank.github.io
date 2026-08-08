@@ -1,0 +1,63 @@
+---
+layout: default
+---
+
+<div class="course-mobile-bar">
+  <button class="course-menu-toggle" type="button" aria-expanded="false"
+    aria-controls="dsa-course-sidebar" data-course-menu-toggle>
+    <span aria-hidden="true">☰</span>
+    <span>Course contents</span>
+  </button>
+  {% if page.section_number %}
+    <span class="course-mobile-context">Section {{ page.section_number }}</span>
+  {% endif %}
+</div>
+
+<div class="course-layout" data-course-layout>
+  <div class="course-backdrop" data-course-backdrop hidden></div>
+  <aside class="course-sidebar" id="dsa-course-sidebar" aria-label="DSA course navigation" data-course-sidebar>
+    {% include dsa_course_sidebar.html %}
+  </aside>
+
+  <article class="course-lesson">
+    <header class="course-lesson__header">
+      <nav class="course-breadcrumbs" aria-label="Breadcrumb">
+        <a href="{{ site.data.dsa_course.home_url | relative_url }}">DSA Course</a>
+        {% if page.chapter_title %}
+          <span aria-hidden="true">/</span><span>{{ page.chapter_title }}</span>
+        {% endif %}
+      </nav>
+      {% if page.section_number %}
+        <p class="course-section-kicker">Section {{ page.section_number }}</p>
+        <h1>{{ page.title }}</h1>
+      {% endif %}
+    </header>
+
+    <div class="course-reading" data-course-reading>{{ content }}</div>
+
+    {% if page.section_number %}
+      <nav class="course-pagination" aria-label="Lesson navigation">
+        {% if page.previous_url %}
+          <a class="course-pagination__item" href="{{ page.previous_url | relative_url }}">
+            <span>Previous section</span><strong>{{ page.previous_title }}</strong>
+          </a>
+        {% else %}
+          <a class="course-pagination__item" href="{{ site.data.dsa_course.home_url | relative_url }}">
+            <span>Course home</span><strong>View the full learning path</strong>
+          </a>
+        {% endif %}
+        {% if page.next_url %}
+          <a class="course-pagination__item" href="{{ page.next_url | relative_url }}">
+            <span>Next section</span><strong>{{ page.next_title }}</strong>
+          </a>
+        {% else %}
+          <span class="course-pagination__item course-pagination__item--disabled" aria-disabled="true">
+            <span>Next section · Coming soon</span><strong>{{ page.next_title | default: "More course material" }}</strong>
+          </span>
+        {% endif %}
+      </nav>
+    {% endif %}
+  </article>
+</div>
+
+<script src="{{ '/assets/dsa-course/dsa-course.js' | relative_url }}" defer></script>
