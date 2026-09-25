@@ -43,6 +43,12 @@ The Investment page is defined in `investment/index.html`.
 - When no posts match a search, the page displays **No matching posts**.
 - When the site contains no investment posts, the page displays an empty state instead of the list.
 
+## Copying Playbook Instructions
+
+Posts tagged `agent-playbook` load `assets/prompt-copy.js`. A right-aligned **Copy instructions** button appears above the first code block under **Agent Instruction Block** or **Copyable Agent Instruction**.
+
+The button copies the complete instruction text, preserving line breaks and Markdown, and announces **Copied!** on success. If browser clipboard access fails, it tries a legacy copy fallback, then selects the instructions for manual copying if needed. Keep these section headings when adding new playbooks so they receive the same control.
+
 ## Finance Navigation
 
 The primary navigation uses **Finance** as a dropdown label.
