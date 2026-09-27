@@ -1,0 +1,32 @@
+{
+  "generator": "edge-tts 7.2.8",
+  "voice": "kn-IN-SapnaNeural",
+  "rate": "+0%",
+  "phrases": [
+    {
+      "id": "hello",
+      "text": "ನಮಸ್ಕಾರ",
+      "file": "hello.mp3"
+    },
+    {
+      "id": "water",
+      "text": "ನೀರು ಬೇಕು",
+      "file": "water.mp3"
+    },
+    {
+      "id": "price",
+      "text": "ಇದು ಎಷ್ಟು?",
+      "file": "price.mp3"
+    },
+    {
+      "id": "stop",
+      "text": "ಇಲ್ಲಿ ನಿಲ್ಲಿಸಿ",
+      "file": "stop.mp3"
+    },
+    {
+      "id": "slow",
+      "text": "ಸ್ವಲ್ಪ ನಿಧಾನವಾಗಿ ಮಾತಾಡಿ",
+      "file": "slow.mp3"
+    }
+  ]
+}

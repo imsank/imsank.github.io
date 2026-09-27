@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learn Kannada · Audio lab</title>
+  <meta name="description" content="Try Kannada speech on your browser before starting everyday lessons.">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header><a href="../">← Hobby</a><span>LEARN KANNADA</span></header>
+  <main id="main">
+    <section class="intro">
+      <p class="eyebrow">FIRST, LET’S LISTEN · PROTOTYPE 01</p>
+      <h1>A little Kannada.<br>A first conversation.</h1>
+      <p class="lead">Try five everyday phrases. We’re checking how Kannada sounds on your device before building the lessons.</p>
+    </section>
+    <section class="audio-panel" aria-labelledby="audio-heading">
+      <div class="panel-heading"><h2 id="audio-heading">Your audio setup</h2><span class="badge">kn-IN</span></div>
+      <p id="voice-status" role="status">Checking for Kannada voices…</p>
+      <div class="controls">
+        <label>Kannada voice<select id="voice" disabled><option>Checking voices…</option></select></label>
+        <label>Speaking speed<select id="rate"><option value="0.6">0.6× · Slow</option><option value="0.8" selected>0.8× · Gentle</option><option value="1">1.0× · Normal</option></select></label>
+      </div>
+      <div class="actions"><button id="stop" disabled>■ Stop audio</button><button id="refresh" class="secondary">Refresh voices</button></div>
+      <p class="hint">These saved MP3s were generated with the Kannada Sapna voice. No voice installation is needed. Speed controls adjust playback while preserving pitch.</p>
+      <p id="playback-status" role="status" aria-live="polite">Choose a phrase to listen.</p>
+    </section>
+    <section aria-labelledby="phrases-heading">
+      <div class="section-heading"><h2 id="phrases-heading">Five phrases to try</h2><span>Listen · Repeat · Compare</span></div>
+      <div id="phrases"></div>
+    </section>
+    <aside class="testing-note">
+      <h2>Does it sound right?</h2>
+      <p>Listen at all three speeds. Is each word clear? Does the pronunciation sound natural? Try the same page on your phone once it’s hosted.</p>
+      <p>These are prototype phrases awaiting language and pronunciation review. Romanization is a reading aid. Generated audio still needs pronunciation review by a fluent Kannada speaker.</p>
+    </aside>
+  </main>
+  <footer>Audio lab · Days 1–7 will follow after the listening check.</footer>
+</body>
+</html>

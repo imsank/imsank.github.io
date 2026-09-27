@@ -98,3 +98,22 @@ course on the site.
 ## Deployment
 
 The GitHub Actions workflow in `.github/workflows/deploy.yml` builds and deploys the site when changes are pushed to `master`. It can also be run manually through `workflow_dispatch`.
+
+## Hobby
+
+The primary Hobby link opens /hobby/, a simple directory of learning projects.
+Learn Kannada is the first entry, at /hobby/learn-kannada/. Its standalone
+stylesheet is independent of the main site theme, and its back link returns to Hobby.
+
+The Kannada prototype ships five saved MP3s in hobby/learn-kannada/audio/ and
+plays them by default. No installed Kannada voice, API key, or backend is needed
+for playback. Optional browser Kannada voices remain available for comparison.
+The user approved the sample audio on 2026-09-27; fluent-speaker language review
+is still pending before expanding the content.
+
+To regenerate recordings, install edge-tts==7.2.8 in a Python environment and run:
+python scripts/generate_kannada_audio.py --app-dir hobby/learn-kannada --output hobby/learn-kannada/audio
+
+Generation needs Node.js to read phrase data and internet access for Microsoft's
+online speech service. Commit updated audio and its manifest alongside content.
+Run speech tests with: node --test tests/kannada-speech.test.mjs
